@@ -1,12 +1,16 @@
 #pragma once
 #include "Brick.hpp"
+#include "Loader.hpp"
+
 #include <vector>
 
 class Game {
 public:
     Game();
-    void initBricks(int n);
+    void loadBricks(char const *filename);
 
 private:
-    vector<Brick> bricks;
+    std::vector<Brick> bricks;
+    int nb_lines_bricks;
+    int nb_columns_bricks;
 };
