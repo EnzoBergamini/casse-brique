@@ -49,36 +49,3 @@ void Window::init(int const score, std::vector<Brick> const &bricks, Slider cons
 
     SDL_RenderPresent(m_renderer.get());
 }
-
-void Window::drawBricks(std::vector<Brick> const &bricks)
-{
-    for (auto const &brick : bricks)
-    {
-        SDL_Rect rect;
-        std::cout << "Drawing brick at " << brick.getCoordinates().first << ", " << brick.getCoordinates().second << std::endl;
-        rect.x = brick.getCoordinates().second * 40;
-        rect.y = brick.getCoordinates().first * 20;
-        rect.w = 40;
-        rect.h = 20;
-
-        SDL_SetRenderDrawColor(m_renderer.get(), 255, 255, 255, 255);
-        SDL_RenderFillRect(m_renderer.get(), &rect);
-    }
-}
-
-void Window::waitQuit()
-{
-    SDL_Event e;
-    bool quit = false;
-    while (!quit)
-    {
-        while (SDL_PollEvent(&e))
-        {
-            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)
-            {
-                quit = true;
-            }
-        }
-    }
-    Window::~Window();
-}

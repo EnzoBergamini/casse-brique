@@ -11,6 +11,7 @@ public:
     Game();
     void loadBricks(char const *filename);
     void run();
+    bool handleEvent(SDL_Event &e);
 
 private:
     std::vector<Brick> m_bricks;

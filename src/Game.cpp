@@ -11,5 +11,40 @@ void Game::run() {
     std::cout << "Running game..." << std::endl;
     m_window.init(m_score, m_bricks, m_slider);
 
-    m_window.waitQuit();
+    SDL_Event e;
+
+    while (true)
+    {
+        if (!handleEvent(e))
+        {
+            break;
+        }
+        m_window.init(m_score, m_bricks, m_slider);
+    }
+    m_window.~Window();
+    std::cout << "Game over" << std::endl;
+}
+
+bool Game::handleEvent(SDL_Event &e) {
+    while (SDL_PollEvent(&e))
+    {
+        if (e.type == SDL_KEYDOWN)
+        {
+            switch (e.key.keysym.sym)
+            {
+            case SDLK_LEFT:
+                m_slider.move(Direction::LEFT);
+                break;
+            case SDLK_RIGHT:
+                m_slider.move(Direction::RIGHT);
+                break;
+            case SDLK_ESCAPE:
+                return false;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    return true;
 }
