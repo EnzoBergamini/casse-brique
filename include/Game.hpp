@@ -8,9 +8,9 @@ class Game {
 public:
     Game();
     void loadBricks(char const *filename);
+    void run();
 
 private:
     std::vector<Brick> bricks;
-    int nb_lines_bricks;
-    int nb_columns_bricks;
+    int score;
 };

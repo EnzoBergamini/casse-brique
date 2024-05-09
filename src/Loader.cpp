@@ -15,11 +15,10 @@ void Loader::load(char const *filename, std::vector<Brick> &bricks) {
     while (file.get(character)) {
         if (character == 'o') {
             column++;
-        } else if (character == '-') {
-            bricks.push_back(Brick(1, std::make_pair(line, column)));
+        } else if (character >= '0' && character <= '9') {
+            bricks.push_back(Brick(int(character - '0'), std::make_pair(line, column)));
             column++;
         } else if (character == '\n') {
-            std::cout << "Found \\n" << std::endl;
             line++;
             column = 0;
         } else {

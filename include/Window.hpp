@@ -1,4 +1,6 @@
 #pragma once
+#include "Brick.hpp"
+
 #include <SDL.h>
 #include <iostream>
 #include <memory>
@@ -9,9 +11,12 @@ public:
     Window(char const *title, int const width, int const height);
     ~Window();
 
+    void init(int const score, std::vector<Brick> const &bricks);
+    void drawBricks(std::vector<Brick> const &bricks);
+
     void waitQuit();
 
 private:
-    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> main_window;
-    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> main_renderer;
+    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;
+    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> m_renderer;
 };

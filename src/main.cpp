@@ -8,16 +8,9 @@
 
 int main()
 {
-    std::vector<Brick> bricks;
-    Loader::load("map", bricks);
+    Game game = Game();
+    game.loadBricks("map");
 
-    for (auto &brick : bricks)
-    {
-        std::cout << brick << std::endl;
-    }
-
-    // Game game();
-    // Window window("Hello World", 800, 800);
-    // window.waitQuit();
+    game.run();
     return 0;
 }

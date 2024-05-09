@@ -11,6 +11,6 @@ std::pair <int, int> Brick::getCoordinates() const {
 }
 
 std::ostream &operator<<(std::ostream &os, const Brick &brick) {
-    os << "Brick: " << brick.getHealth() << " " << brick.getCoordinates().first << " " << brick.getCoordinates().second;
+    os << "Brick: health(" << brick.getHealth() << "), line(" << brick.getCoordinates().first << "), column(" << brick.getCoordinates().second << ")";
     return os;
 }
