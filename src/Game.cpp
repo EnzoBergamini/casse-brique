@@ -19,6 +19,8 @@ void Game::run() {
         {
             break;
         }
+        SDL_Delay(10);
+        m_ball.move();
         m_window.init(m_score, m_bricks, m_slider, m_ball);
     }
     m_window.~Window();
