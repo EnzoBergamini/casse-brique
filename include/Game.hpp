@@ -3,6 +3,7 @@
 #include "Window.hpp"
 #include "Brick.hpp"
 #include "Loader.hpp"
+#include "Ball.hpp"
 
 #include <vector>
 
@@ -17,5 +18,6 @@ private:
     std::vector<Brick> m_bricks;
     Slider m_slider;
     Window m_window;
+    Ball m_ball;
     int m_score;
 };

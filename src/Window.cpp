@@ -35,7 +35,7 @@ Window::~Window()
     SDL_Quit();
 }
 
-void Window::init(int const score, std::vector<Brick> const &bricks, Slider const &slider)
+void Window::init(int const score, std::vector<Brick> const &bricks, Slider const &slider, Ball const &ball)
 {
     SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
     SDL_RenderClear(m_renderer.get());
@@ -46,6 +46,8 @@ void Window::init(int const score, std::vector<Brick> const &bricks, Slider cons
     }
 
     slider.draw(m_renderer.get());
+    ball.draw(m_renderer.get());
+    
 
     SDL_RenderPresent(m_renderer.get());
 }

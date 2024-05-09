@@ -1,6 +1,7 @@
 #pragma once
 #include "Brick.hpp"
 #include "Slider.hpp"
+#include "Ball.hpp"
 
 #include <SDL.h>
 #include <iostream>
@@ -12,7 +13,7 @@ public:
     Window(char const *title, int const width, int const height);
     ~Window();
 
-    void init(int const score, std::vector<Brick> const &bricks, Slider const &slider);
+    void init(int const score, std::vector<Brick> const &bricks, Slider const &slider, Ball const &ball);
     void drawBricks(std::vector<Brick> const &bricks);
     void drawSlider();
 
