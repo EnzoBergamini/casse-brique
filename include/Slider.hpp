@@ -6,7 +6,7 @@
 
 class Slider {
 public:
-    Slider(std::pair<int, int> coordinates);
+    Slider(std::pair<int, int> coordinates, int width, int height);
 
     void move(Direction dir);
 
@@ -17,5 +17,7 @@ public:
     std::pair<int, int> getCoordinates() const;
 
 private:
+    int m_width;
+    int m_height;
     std::pair<int, int> m_coordinates;
 };
