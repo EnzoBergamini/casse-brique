@@ -1,5 +1,6 @@
 #pragma once
 #include "Brick.hpp"
+#include "Slider.hpp"
 
 #include <SDL.h>
 #include <iostream>
@@ -13,10 +14,13 @@ public:
 
     void init(int const score, std::vector<Brick> const &bricks);
     void drawBricks(std::vector<Brick> const &bricks);
+    void drawSlider();
 
     void waitQuit();
 
 private:
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;
     std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> m_renderer;
+
+    Slider m_slider;
 };
