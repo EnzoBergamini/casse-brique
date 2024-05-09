@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Direction.hpp"
 #include <SDL.h>
 #include <utility>
@@ -9,6 +11,8 @@ public:
     void move(Direction dir);
 
     void handleEvent(SDL_Event const &e);
+
+    void draw(SDL_Renderer *renderer) const;
 
     std::pair<int, int> getCoordinates() const;
 

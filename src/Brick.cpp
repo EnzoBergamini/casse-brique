@@ -6,6 +6,17 @@ int Brick::getHealth() const {
     return health;
 }
 
+void Brick::draw(SDL_Renderer *renderer) const {
+    SDL_Rect rect = {
+        coordinates.second * 40,
+        coordinates.first * 20,
+        40, 
+        20
+    };
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+    SDL_RenderFillRect(renderer, &rect);
+}
+
 std::pair <int, int> Brick::getCoordinates() const {
     return coordinates;
 }

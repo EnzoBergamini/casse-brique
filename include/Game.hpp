@@ -1,4 +1,6 @@
 #pragma once
+#include "Slider.hpp"
+#include "Window.hpp"
 #include "Brick.hpp"
 #include "Loader.hpp"
 
@@ -11,6 +13,8 @@ public:
     void run();
 
 private:
-    std::vector<Brick> bricks;
-    int score;
+    std::vector<Brick> m_bricks;
+    Slider m_slider;
+    Window m_window;
+    int m_score;
 };

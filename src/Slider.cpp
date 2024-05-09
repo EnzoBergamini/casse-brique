@@ -13,6 +13,18 @@ void Slider::move(Direction dir) {
     }
 }   
 
+void Slider::draw(SDL_Renderer *renderer) const {
+    SDL_Rect rect = {
+        m_coordinates.second * 40,
+        m_coordinates.first * 20, 
+        70, 
+        15
+    };
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &rect);    
+}
+
 void Slider::handleEvent(SDL_Event const &e) {
     if (e.type == SDL_KEYDOWN) { // for the keybord
         switch (e.key.keysym.sym) {

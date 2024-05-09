@@ -1,7 +1,7 @@
 #include "../include/Window.hpp"
 
 Window::Window(char const *title, int const width, int const height)
-    : m_window(nullptr, SDL_DestroyWindow), m_renderer(nullptr, SDL_DestroyRenderer), m_slider(std::pair<int, int>(25, 5))
+    : m_window(nullptr, SDL_DestroyWindow), m_renderer(nullptr, SDL_DestroyRenderer)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -35,17 +35,19 @@ Window::~Window()
     SDL_Quit();
 }
 
-void Window::init(int const score, std::vector<Brick> const &bricks)
+void Window::init(int const score, std::vector<Brick> const &bricks, Slider const &slider)
 {
     SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
     SDL_RenderClear(m_renderer.get());
 
+    for( auto const &brick : bricks)
+    {
+        brick.draw(m_renderer.get());
+    }
 
-    drawBricks(bricks);
-    drawSlider();
+    slider.draw(m_renderer.get());
 
     SDL_RenderPresent(m_renderer.get());
-    
 }
 
 void Window::drawBricks(std::vector<Brick> const &bricks)
@@ -62,18 +64,6 @@ void Window::drawBricks(std::vector<Brick> const &bricks)
         SDL_SetRenderDrawColor(m_renderer.get(), 255, 255, 255, 255);
         SDL_RenderFillRect(m_renderer.get(), &rect);
     }
-}
-
-void Window::drawSlider()
-{
-    SDL_Rect rect;
-    rect.x = m_slider.getCoordinates().second * 40;
-    rect.y = m_slider.getCoordinates().first * 20;
-    rect.w = 70;
-    rect.h = 15;
-
-    SDL_SetRenderDrawColor(m_renderer.get(), 255, 0, 255, 255);
-    SDL_RenderFillRect(m_renderer.get(), &rect);
 }
 
 void Window::waitQuit()

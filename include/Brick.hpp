@@ -2,6 +2,7 @@
 #include <iostream>
 #include <utility>
 #include <vector>
+#include <SDL.h>
 
 class Brick {
 public:
@@ -9,6 +10,8 @@ public:
 
     int getHealth() const;
     std::pair <int, int> getCoordinates() const;
+
+    void draw(SDL_Renderer *renderer) const;
 private:
     int health;
     std::pair <int, int> coordinates;
