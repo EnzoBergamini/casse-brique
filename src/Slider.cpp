@@ -1,7 +1,7 @@
 #include "../include/Slider.hpp"
 #include <iostream>
 
-Slider::Slider(std::pair<int, int> coordinates, int width, int height) : m_coordinates(coordinates), m_width(width), m_height(height) {}
+Slider::Slider(std::pair<int, int> coordinates, int width, int height) : Object(coordinates), m_width(width), m_height(height) {}
 
 void Slider::move(Direction dir) {
     switch (dir) {
@@ -14,7 +14,7 @@ void Slider::move(Direction dir) {
     }
 }   
 
-void Slider::draw(SDL_Renderer *renderer) const {
+void Slider::draw(SDL_Renderer *renderer) const{
     SDL_Rect rect = {
         m_coordinates.second * 20,
         m_coordinates.first * 20, 
@@ -24,8 +24,4 @@ void Slider::draw(SDL_Renderer *renderer) const {
 
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &rect);    
-}
-
-std::pair<int, int> Slider::getCoordinates() const {
-    return m_coordinates;
 }

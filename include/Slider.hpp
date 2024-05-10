@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Direction.hpp"
+#include "Object.hpp"
+
 #include <SDL.h>
 #include <utility>
 
-class Slider {
+class Slider : public Object {
 public:
     Slider(std::pair<int, int> coordinates, int width, int height);
 
@@ -12,12 +14,10 @@ public:
 
     void handleEvent(SDL_Event const &e);
 
-    void draw(SDL_Renderer *renderer) const;
+    void draw(SDL_Renderer *renderer) const override;
 
-    std::pair<int, int> getCoordinates() const;
 
 private:
     int m_width;
     int m_height;
-    std::pair<int, int> m_coordinates;
 };

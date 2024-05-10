@@ -1,13 +1,13 @@
 #include "../include/Ball.hpp"
 
-Ball::Ball(std::pair<int, int> coordinates, int radius, std::pair<int, int> velocity) : m_coordinates(coordinates), m_radius(radius), m_velocity(velocity) {}
+Ball::Ball(std::pair<int, int> coordinates, int radius, std::pair<int, int> velocity) : Object(coordinates), m_radius(radius), m_velocity(velocity) {}
 
 void Ball::move() {
     m_coordinates.first += m_velocity.first;
     m_coordinates.second += m_velocity.second;
 }
 
-void Ball::draw(SDL_Renderer *renderer) const {
+void Ball::draw(SDL_Renderer *renderer) const{
     SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
     for (int i = 0; i < m_radius; i++) {
         for (int j = 0; j < m_radius; j++) {

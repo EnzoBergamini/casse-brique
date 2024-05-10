@@ -1,12 +1,12 @@
 #include "../include/Brick.hpp"
 
-Brick::Brick(int health, std::pair <int, int> coordinates, int width, int height) : m_health(health), m_coordinates(coordinates), m_width(width), m_height(height) {}
+Brick::Brick(int health, std::pair <int, int> coordinates, int width, int height) : Object(coordinates), m_health(health), m_width(width), m_height(height) {}
 
 int Brick::getHealth() const {
     return m_health;
 }
 
-void Brick::draw(SDL_Renderer *renderer) const {
+void Brick::draw(SDL_Renderer *renderer) const{
     SDL_Rect rect = {
         m_coordinates.second * m_width,
         m_coordinates.first * m_height,
