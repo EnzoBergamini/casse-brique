@@ -38,7 +38,7 @@ bool Game::handleEvent(SDL_Event &e) {
                 m_slider.move(Direction::LEFT);
                 break;
             case SDLK_RIGHT:
-                m_slider.move(Direction::RIGHT);
+                m_slider.move(Direction::RIGHT, 1);
                 break;
             case SDLK_ESCAPE:
                 return false;
@@ -46,6 +46,10 @@ bool Game::handleEvent(SDL_Event &e) {
             default:
                 break;
             }
+        }else if (e.type == SDL_MOUSEMOTION)
+        {
+            std::cout << "Mouse motion" << e.motion.xrel << std::endl;
+            m_slider.move(Direction::MOUSE, e.motion.xrel);
         }
     }
     return true;

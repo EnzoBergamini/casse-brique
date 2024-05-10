@@ -3,13 +3,16 @@
 
 Slider::Slider(std::pair<int, int> coordinates, int width, int height) : Object(coordinates), m_width(width), m_height(height) {}
 
-void Slider::move(Direction dir) {
+void Slider::move(Direction dir, int velocity) {
     switch (dir) {
         case Direction::LEFT:
-            m_coordinates.second--;
+            m_coordinates.second -= velocity;
             break;
         case Direction::RIGHT:
-            m_coordinates.second++;
+            m_coordinates.second += velocity;
+            break;
+        case Direction::MOUSE:
+            m_coordinates.second += int(velocity/10);
             break;
     }
 }   

@@ -10,7 +10,7 @@ class Slider : public Object {
 public:
     Slider(std::pair<int, int> coordinates, int width, int height);
 
-    void move(Direction dir);
+    void move(Direction dir = Direction::MOUSE, int velocity = 1);
 
     void handleEvent(SDL_Event const &e);
 

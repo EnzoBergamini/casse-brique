@@ -2,5 +2,6 @@
 
 enum Direction {
     LEFT,
-    RIGHT
+    RIGHT,
+    MOUSE
 };
