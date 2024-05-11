@@ -8,7 +8,7 @@
 
 class Slider : public Object {
 public:
-    Slider(std::pair<int, int> coordinates, int width, int height);
+    Slider(Coordinate coordinates, int width, int height);
 
     void move(Direction dir = Direction::MOUSE, int velocity = 1);
 

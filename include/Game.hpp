@@ -13,6 +13,7 @@ public:
     void loadBricks(char const *filename);
     void run();
     bool handleEvent(SDL_Event &e);
+    bool checkCollision();
 
 private:
     std::vector<Brick> m_bricks;

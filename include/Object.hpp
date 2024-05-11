@@ -1,16 +1,18 @@
 #pragma once
 
+#include "../include/Coordinate.hpp"
+
 #include <SDL.h>
 #include <utility>
 
 class Object {
 public:
-    Object(std::pair<int, int> coordinates);
-    std::pair<int, int> getCoordinates() const;
-    void setCoordinates(std::pair<int, int> coordinates);
+    Object(Coordinate coordinates);
+    Coordinate getCoordinates() const;
+    void setCoordinates(Coordinate coordinates);
 
     virtual void draw(SDL_Renderer *renderer) const = 0;
 
 protected:
-    std::pair<int, int> m_coordinates;
+    Coordinate m_coordinates;
 };

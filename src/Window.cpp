@@ -1,7 +1,7 @@
 #include "../include/Window.hpp"
 
 Window::Window(char const *title, int const width, int const height)
-    : m_window(nullptr, SDL_DestroyWindow), m_renderer(nullptr, SDL_DestroyRenderer)
+    : m_window(nullptr, SDL_DestroyWindow), m_renderer(nullptr, SDL_DestroyRenderer), m_size(std::pair<int, int>(width, height))
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -50,4 +50,9 @@ void Window::init(int const score, std::vector<Brick> const &bricks, Slider cons
     
 
     SDL_RenderPresent(m_renderer.get());
+}
+
+std::pair<int, int> Window::getSize() const
+{
+    return m_size;
 }

@@ -1,11 +1,11 @@
 #include "../include/Object.hpp"
 
-Object::Object(std::pair<int, int> coordinates) : m_coordinates(coordinates) {} 
+Object::Object(Coordinate coordinates) : m_coordinates(coordinates) {} 
 
-std::pair<int, int> Object::getCoordinates() const {
+Coordinate Object::getCoordinates() const {
     return m_coordinates;
 }
 
-void Object::setCoordinates(std::pair<int, int> coordinates) {
+void Object::setCoordinates(Coordinate coordinates) {
     m_coordinates = coordinates;
 }

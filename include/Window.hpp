@@ -13,6 +13,8 @@ public:
     Window(char const *title, int const width, int const height);
     ~Window();
 
+    std::pair<int, int> getSize() const;
+
     void init(int const score, std::vector<Brick> const &bricks, Slider const &slider, Ball const &ball);
     void drawBricks(std::vector<Brick> const &bricks);
     void drawSlider();
@@ -22,4 +24,6 @@ public:
 private:
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;
     std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> m_renderer;
+
+    std::pair<int, int> m_size;
 };

@@ -14,8 +14,6 @@ public:
     void setX(int x);
     void setY(int y);
 
-    void print() const;
-
 private:
     int m_x;
     int m_y;

@@ -19,7 +19,3 @@ void Coordinate::setX(int x) {
 void Coordinate::setY(int y) {
     m_y = y;
 }
-
-void Coordinate::print() const {
-    std::cout << "(" << m_x << ", " << m_y << ")" << std::endl;
-}

@@ -7,13 +7,17 @@
 
 class Ball : public Object {
 public:
-    Ball(std::pair<int, int> coordinates, int radius, std::pair<int, int> velocity);
+    Ball(Coordinate coordinates, int radius, Coordinate velocity);
 
     void move();
+
+    void setVelocity(Coordinate velocity);
+
+    Coordinate getVelocity() const;
 
     void draw(SDL_Renderer *renderer) const override;
 
 private:
     int m_radius;
-    std::pair<int, int> m_velocity;
+    Coordinate m_velocity;
 };
