@@ -16,6 +16,13 @@ public:
 
     void draw(SDL_Renderer *renderer) const override;
 
+    std::vector<Coordinate> getHitbox() const override;
+
+    int getWidth() const;
+
+    int getHeight() const;
+
+
 
 private:
     int m_width;

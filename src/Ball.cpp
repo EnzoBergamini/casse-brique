@@ -29,3 +29,18 @@ Coordinate Ball::getVelocity() const {
     return m_velocity;
 }
 
+std::vector<Coordinate> Ball::getHitbox() const {
+    std::vector<Coordinate> hitbox;
+    for (int i = 0; i < m_radius; i++) {
+        for (int j = 0; j < m_radius; j++) {
+            if (i * i + j * j <= m_radius * m_radius) {
+                hitbox.push_back(Coordinate(m_coordinates.getX() + i, m_coordinates.getY() + j));
+                hitbox.push_back(Coordinate(m_coordinates.getX() - i, m_coordinates.getY() + j));
+                hitbox.push_back(Coordinate(m_coordinates.getX() + i, m_coordinates.getY() - j));
+                hitbox.push_back(Coordinate(m_coordinates.getX() - i, m_coordinates.getY() - j));
+            }
+        }
+    }
+    return hitbox;
+}
+

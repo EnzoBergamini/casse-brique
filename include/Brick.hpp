@@ -14,6 +14,8 @@ public:
     int getHealth() const;
 
     void draw(SDL_Renderer *renderer) const override;
+
+    std::vector<Coordinate> getHitbox() const override;
 private:
     int m_health;
     int m_width;

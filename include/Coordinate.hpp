@@ -14,6 +14,8 @@ public:
     void setX(int x);
     void setY(int y);
 
+    bool operator==(Coordinate const &rhs) const;
+
 private:
     int m_x;
     int m_y;

@@ -8,11 +8,22 @@ int Brick::getHealth() const {
 
 void Brick::draw(SDL_Renderer *renderer) const{
     SDL_Rect rect = {
-        m_coordinates.getY() * m_width,
-        m_coordinates.getX() * m_height,
+        m_coordinates.getY(),
+        m_coordinates.getX(),
         m_width, 
         m_height
     };
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
     SDL_RenderFillRect(renderer, &rect);
 }
+
+std::vector<Coordinate> Brick::getHitbox() const {
+    std::vector<Coordinate> hitbox;
+    for (int i = 0; i < m_width; i++) {
+        for (int j = 0; j < m_height; j++) {
+            hitbox.push_back(Coordinate(m_coordinates.getX() + i, m_coordinates.getY() + j));
+        }
+    }
+    return hitbox;
+}
+

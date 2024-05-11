@@ -19,3 +19,7 @@ void Coordinate::setX(int x) {
 void Coordinate::setY(int y) {
     m_y = y;
 }
+
+bool Coordinate::operator==(Coordinate const &other) const {
+    return m_x == other.m_x && m_y == other.m_y;
+}

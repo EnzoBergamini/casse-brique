@@ -16,7 +16,7 @@ void Loader::load(char const *filename, std::vector<Brick> &bricks) {
         if (character == 'o') {
             column++;
         } else if (character >= '0' && character <= '9') {
-            bricks.push_back(Brick(int(character - '0'), Coordinate(line, column), 40, 20));
+            bricks.push_back(Brick(int(character - '0'), Coordinate(line*20, column*40), 40, 20));
             column++;
         } else if (character == '\n') {
             line++;

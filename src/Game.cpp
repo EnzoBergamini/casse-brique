@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-Game::Game() : m_score(0), m_slider(Coordinate(25, 5), 70, 15), m_window(Window("casse brique", 800, 600)), m_ball(Ball(Coordinate(300, 400), 10, Coordinate(-5, 5))) {}
+Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_window(Window("casse brique", 800, 600)), m_ball(Ball(Coordinate(300, 400), 10, Coordinate(-5, 5))) {}
 
 void Game::loadBricks(char const *filename){
     Loader::load(filename, m_bricks);
@@ -41,10 +41,10 @@ bool Game::handleEvent(SDL_Event &e) {
             switch (e.key.keysym.sym)
             {
             case SDLK_LEFT:
-                m_slider.move(Direction::LEFT);
+                m_slider.move(Direction::LEFT, 20);
                 break;
             case SDLK_RIGHT:
-                m_slider.move(Direction::RIGHT, 1);
+                m_slider.move(Direction::RIGHT, 20);
                 break;
             case SDLK_ESCAPE:
                 return false;
@@ -78,5 +78,6 @@ bool Game::checkCollision() {
         std::cout << "ball position : " << m_ball.getCoordinates().getX() << " , " << m_ball.getCoordinates().getY() << std::endl;
         m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
     }
+
     return false;
 }

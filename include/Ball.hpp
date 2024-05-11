@@ -17,6 +17,8 @@ public:
 
     void draw(SDL_Renderer *renderer) const override;
 
+    std::vector<Coordinate> getHitbox() const override;
+
 private:
     int m_radius;
     Coordinate m_velocity;
