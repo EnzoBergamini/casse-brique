@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_window(Window("casse brique", 800, 600)), m_ball(Ball(Coordinate(300, 400), 10, Coordinate(-5, 5))) {}
+Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_window(Window("casse brique", 800, 600)), m_ball(Ball(Coordinate(300, 400), 10, Coordinate(-7, 7))) {}
 
 void Game::loadBricks(char const *filename){
     Loader::load(filename, m_bricks);
@@ -21,7 +21,6 @@ void Game::run() {
         {
             break;
         }
-        SDL_Delay(30);
         m_ball.move();
         if (checkCollision())
         {
@@ -70,13 +69,27 @@ bool Game::handleEvent(SDL_Event &e) {
 bool Game::checkCollision() {
     if (m_ball.getCoordinates().getX() < 0 || m_ball.getCoordinates().getX() > 800)
     {
-        std::cout << "ball position : " << m_ball.getCoordinates().getX() << " , " << m_ball.getCoordinates().getY() << std::endl;
+        std::cout << "wall collision" << std::endl;
         m_ball.setVelocity(Coordinate(-m_ball.getVelocity().getX(), m_ball.getVelocity().getY()));
     }
     if (m_ball.getCoordinates().getY() < 0 || m_ball.getCoordinates().getY() > 600)
     {
-        std::cout << "ball position : " << m_ball.getCoordinates().getX() << " , " << m_ball.getCoordinates().getY() << std::endl;
+        std::cout << "wall collision" << std::endl;
         m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
+    }
+    if (m_slider.isColliding(m_ball))
+    {
+        std::cout << "slider collision" << std::endl;
+        m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
+    }
+
+    for (auto &brick : m_bricks)
+    {
+        if (brick.isColliding(m_ball))
+        {
+            std::cout << "brick collision coord : " << brick.getCoordinates().getX() << " " << brick.getCoordinates().getY() << std::endl;
+            m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
+        }
     }
 
     return false;

@@ -8,8 +8,8 @@ int Brick::getHealth() const {
 
 void Brick::draw(SDL_Renderer *renderer) const{
     SDL_Rect rect = {
-        m_coordinates.getY(),
         m_coordinates.getX(),
+        m_coordinates.getY(),
         m_width, 
         m_height
     };
