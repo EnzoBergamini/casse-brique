@@ -6,6 +6,7 @@
 #include "Ball.hpp"
 
 #include <vector>
+#include <algorithm>
 
 class Game {
 public:

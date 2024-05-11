@@ -27,3 +27,15 @@ std::vector<Coordinate> Brick::getHitbox() const {
     return hitbox;
 }
 
+bool Brick::hit() {
+    if (m_health <= 1){
+        m_health--;
+        return true;
+    }
+    m_health--;
+    return false;
+}
+
+bool Brick::operator==(const Brick &brick) const {
+    return m_coordinates == brick.getCoordinates();
+}

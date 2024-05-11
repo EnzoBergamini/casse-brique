@@ -16,6 +16,10 @@ public:
     void draw(SDL_Renderer *renderer) const override;
 
     std::vector<Coordinate> getHitbox() const override;
+
+    bool hit();
+
+    bool operator==(const Brick &brick) const;
 private:
     int m_health;
     int m_width;

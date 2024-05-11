@@ -88,7 +88,11 @@ bool Game::checkCollision() {
         if (brick.isColliding(m_ball))
         {
             std::cout << "brick collision coord : " << brick.getCoordinates().getX() << " " << brick.getCoordinates().getY() << std::endl;
+            m_score++;
             m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
+            if (brick.hit()){
+                m_bricks.erase(std::remove(m_bricks.begin(), m_bricks.end(), brick), m_bricks.end());
+            }
         }
     }
 
