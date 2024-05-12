@@ -9,22 +9,19 @@ void Game::loadBricks(char const *filename){
     Loader::load(filename, m_bricks);
 }
 
-GameState Game::update() {  
+GameState Game::update(SDL_Event &e) {  
     //Optimisable
-    SDL_Event e;
 
-    if (SDL_PollEvent(&e))
+    if ((m_state = handleEvent(e)) != GameState::RUNNING)
     {
-        if ((m_state = handleEvent(e)) != GameState::RUNNING)
-        {
-            return m_state;
-        }
+        return m_state;
     }
     m_ball.move();
     if ((m_state = checkCollision()) != GameState::RUNNING)
     {
         return m_state;
     }
+    return GameState::RUNNING;
 }
 
 GameState Game::handleEvent(SDL_Event &e) {

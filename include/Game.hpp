@@ -18,7 +18,7 @@ class Game {
 public:
     Game();
     void loadBricks(char const *filename);
-    GameState update();
+    GameState update(SDL_Event &e);
     GameState handleEvent(SDL_Event &e);
     GameState checkCollision();
 
@@ -32,5 +32,5 @@ private:
     Slider m_slider;
     Ball m_ball;
     int m_score;
-    GameState m_state;
+    mutable GameState m_state;
 };

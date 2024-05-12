@@ -5,7 +5,6 @@ Window::Window()
 {
 }
 
-
 Window::~Window()
 {
 }
@@ -16,9 +15,11 @@ void Window::mainLoop()
 
     //Commence toujours en MAIN_TITLE
     // Ici seuelemnt en lancement de jeu
+    m_renderHandler.renderMainTitle();
     m_WindowState = WindowState::GAME;
     gameLoop();
     std::cout << "Game loop ended" << std::endl;
+    return;
 }
 
 void Window::gameLoop()
@@ -27,9 +28,11 @@ void Window::gameLoop()
     Game game = Game();
     game.loadBricks("map");
     std::cout << "Game loaded" << std::endl;
-    SDL_Event e;
-    while (game.update() != GameState::RUNNING)
+    SDL_Event e;    
+    while (game.update(e) == GameState::RUNNING)
     {
         m_renderHandler.renderGame(game);
     }
+    std::cout << "Game ended" << std::endl;
+    return ;
 }
