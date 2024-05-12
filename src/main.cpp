@@ -9,12 +9,8 @@
 
 int main()
 {
-    MainTitle mainTitle = MainTitle("casse brique", 800, 600);
-    mainTitle.init();
+    Window window("Breakout", 800, 600);
+    window.mainLoop();
 
-    // Game game = Game();
-    // game.loadBricks("map");
-
-    // game.run();
     return 0;
 }

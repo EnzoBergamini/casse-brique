@@ -8,18 +8,25 @@
 #include <vector>
 #include <algorithm>
 
+enum class GameState {
+    RUNNING,
+    GAME_OVER,
+    PAUSE,
+    WIN
+};
+
 class Game {
 public:
     Game();
     void loadBricks(char const *filename);
-    void run();
-    bool handleEvent(SDL_Event &e);
-    bool checkCollision();
+    GameState update(SDL_event &e);
+    GameState handleEvent(SDL_Event &e);
+    GameState checkCollision();
 
 private:
     std::vector<Brick> m_bricks;
     Slider m_slider;
-    Window m_window;
     Ball m_ball;
     int m_score;
+    GameState m_state;
 };

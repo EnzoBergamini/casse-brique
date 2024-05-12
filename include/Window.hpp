@@ -2,6 +2,7 @@
 #include "Brick.hpp"
 #include "Slider.hpp"
 #include "Ball.hpp"
+#include "RenderHandler.hpp"
 
 #include <SDL.h>
 #include <iostream>
@@ -10,20 +11,15 @@
 
 class Window {
 public:
-    Window(char const *title, int const width, int const height);
+    Window();
     ~Window();
+
+    void mainLoop();
 
     std::pair<int, int> getSize() const;
 
-    void init(int const score, std::vector<Brick> const &bricks, Slider const &slider, Ball const &ball);
-    void drawBricks(std::vector<Brick> const &bricks);
-    void drawSlider();
-
-    void waitQuit();
-
 private:
-    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;
-    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> m_renderer;
+    std::un
+    std::unique_ptr<RenderHandler> m_renderHandler;
 
-    std::pair<int, int> m_size;
 };

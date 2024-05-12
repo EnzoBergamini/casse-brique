@@ -3,36 +3,26 @@
 
 #include <cmath>
 
-Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_window(Window("casse brique", 800, 600)), m_ball(Ball(Coordinate(300, 400), 10, Coordinate(-7, 7))) {}
+Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_ball(Ball(Coordinate(300, 400), 10, Coordinate(-7, 7))) {}
 
 void Game::loadBricks(char const *filename){
     Loader::load(filename, m_bricks);
 }
 
-void Game::run() {
-    std::cout << "Running game..." << std::endl;
-    m_window.init(m_score, m_bricks, m_slider, m_ball);
-
-    SDL_Event e;
-
-    while (true)
+GameState Game::update(SDL_event &e) {
+    //Optimisable
+    if ((m_state = handleEvent(e)) != GameState::RUNNING)
     {
-        if (!handleEvent(e))
-        {
-            break;
-        }
-        m_ball.move();
-        if (checkCollision())
-        {
-            break;
-        }
-        m_window.init(m_score, m_bricks, m_slider, m_ball);
+        return m_state;
     }
-    m_window.~Window();
-    std::cout << "Game over" << std::endl;
+    m_ball.move();
+    if ((m_state = checkCollision()) != GameState::RUNNING)
+    {
+        return m_state;
+    }
 }
 
-bool Game::handleEvent(SDL_Event &e) {
+GameState Game::handleEvent(SDL_Event &e) {
     while (SDL_PollEvent(&e))
     {
         if (e.type == SDL_KEYDOWN)
@@ -46,7 +36,7 @@ bool Game::handleEvent(SDL_Event &e) {
                 m_slider.move(Direction::RIGHT, 20);
                 break;
             case SDLK_ESCAPE:
-                return false;
+                return GameState::PAUSE;
                 break;
             default:
                 break;
@@ -63,10 +53,10 @@ bool Game::handleEvent(SDL_Event &e) {
             
         }
     }
-    return true;
+    return GameState::RUNNING;
 }
 
-bool Game::checkCollision() {
+GameState Game::checkCollision() {
     if (m_ball.getCoordinates().getX() < 0 || m_ball.getCoordinates().getX() > 800)
     {
         std::cout << "wall collision" << std::endl;
@@ -82,6 +72,10 @@ bool Game::checkCollision() {
         std::cout << "slider collision" << std::endl;
         m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
     }
+    if (m_ball.getCoordinates().getY() > 600)
+    {
+        return GameState::GAME_OVER;
+    }
 
     for (auto &brick : m_bricks)
     {
@@ -92,9 +86,13 @@ bool Game::checkCollision() {
             m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
             if (brick.hit()){
                 m_bricks.erase(std::remove(m_bricks.begin(), m_bricks.end(), brick), m_bricks.end());
+                if (m_bricks.empty())
+                {
+                    return GameState::WIN;
+                }
             }
         }
     }
 
-    return false;
+    return GameState::RUNNING;
 }
