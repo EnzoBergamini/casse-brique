@@ -1,4 +1,5 @@
 #include "../include/Window.hpp"
+#include "../include/MainTitle.hpp"
 #include "../include/Game.hpp"
 #include "../include/Brick.hpp"
 #include "../include/Loader.hpp"
@@ -8,9 +9,12 @@
 
 int main()
 {
-    Game game = Game();
-    game.loadBricks("map");
+    MainTitle mainTitle = MainTitle("casse brique", 800, 600);
+    mainTitle.init();
 
-    game.run();
+    // Game game = Game();
+    // game.loadBricks("map");
+
+    // game.run();
     return 0;
 }
