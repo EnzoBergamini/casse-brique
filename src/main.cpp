@@ -1,5 +1,4 @@
 #include "../include/Window.hpp"
-#include "../include/MainTitle.hpp"
 #include "../include/Game.hpp"
 #include "../include/Brick.hpp"
 #include "../include/Loader.hpp"
@@ -9,7 +8,7 @@
 
 int main()
 {
-    Window window("Breakout", 800, 600);
+    Window window;
     window.mainLoop();
 
     return 0;

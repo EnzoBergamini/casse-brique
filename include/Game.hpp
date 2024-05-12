@@ -1,6 +1,5 @@
 #pragma once
 #include "Slider.hpp"
-#include "Window.hpp"
 #include "Brick.hpp"
 #include "Loader.hpp"
 #include "Ball.hpp"
@@ -19,9 +18,14 @@ class Game {
 public:
     Game();
     void loadBricks(char const *filename);
-    GameState update(SDL_event &e);
+    GameState update();
     GameState handleEvent(SDL_Event &e);
     GameState checkCollision();
+
+    inline std::vector<Brick> const &getBricks() const { return m_bricks; }
+    inline Slider const &getSlider() const { return m_slider; }
+    inline Ball const &getBall() const { return m_ball; }
+    inline int getScore() const { return m_score; }
 
 private:
     std::vector<Brick> m_bricks;

@@ -3,17 +3,22 @@
 
 #include <cmath>
 
-Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_ball(Ball(Coordinate(300, 400), 10, Coordinate(-7, 7))) {}
+Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_ball(Ball(Coordinate(300, 400), 10, Coordinate(-7, 7))), m_state(GameState::RUNNING) {}
 
 void Game::loadBricks(char const *filename){
     Loader::load(filename, m_bricks);
 }
 
-GameState Game::update(SDL_event &e) {
+GameState Game::update() {  
     //Optimisable
-    if ((m_state = handleEvent(e)) != GameState::RUNNING)
+    SDL_Event e;
+
+    if (SDL_PollEvent(&e))
     {
-        return m_state;
+        if ((m_state = handleEvent(e)) != GameState::RUNNING)
+        {
+            return m_state;
+        }
     }
     m_ball.move();
     if ((m_state = checkCollision()) != GameState::RUNNING)

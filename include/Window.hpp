@@ -8,6 +8,16 @@
 #include <iostream>
 #include <memory>
 
+enum class WindowState {
+    GAME,
+    MAIN_TITLE,
+    GAME_OVER,
+    PAUSE,
+    WIN,
+    LOADER_SCREEN
+};
+
+
 
 class Window {
 public:
@@ -15,11 +25,10 @@ public:
     ~Window();
 
     void mainLoop();
-
-    std::pair<int, int> getSize() const;
+    void gameLoop();
 
 private:
-    std::un
-    std::unique_ptr<RenderHandler> m_renderHandler;
 
+    RenderHandler m_renderHandler;
+    WindowState m_WindowState;
 };

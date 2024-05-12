@@ -1,7 +1,9 @@
 #include "../include/Window.hpp"
 
 Window::Window()
-    : m_renderHandler(std::make_unique<RenderHandler>(m_window, m_renderer, m_size))
+    : m_renderHandler("breakout", 800, 600 ), m_WindowState(WindowState::MAIN_TITLE)
+{
+}
 
 
 Window::~Window()
@@ -9,22 +11,19 @@ Window::~Window()
 }
 
 void Window::mainLoop()
-{
-    SDL_Event e;
-    while (true)
-    {
-        
-        if (SDL_PollEvent(&e))
-        {
-            if (e.type == SDL_QUIT)
-            {
-                break;
-            }
-        }
-    }
+{   
+    //Commence toujours en MAIN_TITLE
+    // Ici seuelemnt en lancement de jeu
+    gameLoop();
 }
 
-std::pair<int, int> Window::getSize() const
+void Window::gameLoop()
 {
-    return m_size;
+    //Commence toujours en GAME
+    Game game;
+    SDL_Event e;
+    while (game.update() != GameState::RUNNING)
+    {
+        m_renderHandler.renderGame(game);
+    }
 }

@@ -32,8 +32,8 @@ RenderHandler::RenderHandler(char const *title, int const width, int const heigh
 
 RenderHandler::~RenderHandler()
 {
-    SDL_destroyRenderer(m_renderer.get());
-    SDL_destroyWindow(m_window.get());
+    SDL_DestroyRenderer(m_renderer.get());
+    SDL_DestroyWindow(m_window.get());
     SDL_Quit();
 }
 
@@ -42,13 +42,13 @@ void RenderHandler::renderGame(Game const &g)
     SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
     SDL_RenderClear(m_renderer.get());
 
-    for( auto const &brick : g.bricks)
+    for( auto const &brick : g.getBricks() )
     {
         brick.draw(m_renderer.get());
     }
 
-    g.slider.draw(m_renderer.get());
-    g.ball.draw(m_renderer.get());
+    g.getSlider().draw(m_renderer.get());
+    g.getBall().draw(m_renderer.get());
     
 
     SDL_RenderPresent(m_renderer.get());
@@ -93,6 +93,7 @@ void RenderHandler::renderLoaderScreen()
 
     SDL_RenderPresent(m_renderer.get());
 }
+
 
 std::pair<int, int> RenderHandler::getSize() const
 {
