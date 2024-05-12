@@ -26,6 +26,7 @@ public:
     inline Slider const &getSlider() const { return m_slider; }
     inline Ball const &getBall() const { return m_ball; }
     inline int getScore() const { return m_score; }
+    inline GameState getState() const { return m_state; }
 
 private:
     std::vector<Brick> m_bricks;

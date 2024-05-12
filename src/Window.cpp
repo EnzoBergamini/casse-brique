@@ -14,11 +14,29 @@ void Window::mainLoop()
     std::cout << "Main loop started" << std::endl;
 
     //Commence toujours en MAIN_TITLE
-    // Ici seuelemnt en lancement de jeu
     m_renderHandler.renderMainTitle();
-    m_WindowState = WindowState::GAME;
-    gameLoop();
-    std::cout << "Game loop ended" << std::endl;
+    //Check si on pressse sur baree espace pour lancer le jeu
+    SDL_Event e;
+    SDL_WaitEvent(&e);
+
+    while (true)
+    {
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+        {
+            m_WindowState = WindowState::GAME;
+            gameLoop();
+        }
+
+        else if (e.type == SDL_QUIT|| (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
+        {
+            return;
+        }
+        
+        SDL_WaitEvent(&e);
+    }
+
+    
+    std::cout << "main loop ended" << std::endl;
     return;
 }
 
@@ -34,5 +52,23 @@ void Window::gameLoop()
         m_renderHandler.renderGame(game);
     }
     std::cout << "Game ended" << std::endl;
+
+    switch (game.getState())
+    {
+    case GameState::GAME_OVER:
+        m_renderHandler.renderGameOver(game.getScore());
+        break;
+
+    case GameState::WIN:
+        m_renderHandler.renderWin(game.getScore());
+        break;
+    
+    case GameState::PAUSE:
+        m_renderHandler.renderPause();
+        break;
+    
+    default:
+        break;
+    }
     return ;
 }
