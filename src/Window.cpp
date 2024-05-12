@@ -27,15 +27,20 @@ void Window::mainLoop()
             gameLoop();
         }
 
+        else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LCTRL)
+        {
+            m_WindowState = WindowState::LOADER_SCREEN;
+            m_renderHandler.renderLoaderScreen();
+            // Ajouter la fenetre du loader et l'heuristique en plus
+        }
+
         else if (e.type == SDL_QUIT|| (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
         {
             return;
         }
         
         SDL_WaitEvent(&e);
-    }
-
-    
+    }       
     std::cout << "main loop ended" << std::endl;
     return;
 }
