@@ -24,9 +24,18 @@ public:
     void renderWin(int const score);
     void renderLoaderScreen();
 
+    void renderBrick(Brick const &brick);
+    void renderSlider(Slider const &slider);
+    void renderBall(Ball const &ball);
+
 
 private:
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;
     std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> m_renderer;
     std::pair<int, int> m_size;
+
+    SDL_Texture* m_brickTexture;
+    SDL_Texture* m_sliderTexture;
+    SDL_Texture* m_ballTexture;
+
 };

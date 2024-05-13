@@ -18,6 +18,7 @@ public:
     void draw(SDL_Renderer *renderer) const override;
 
     std::vector<Coordinate> getHitbox() const override;
+    inline int getRadius() const { return m_radius; }
 
 private:
     int m_radius;

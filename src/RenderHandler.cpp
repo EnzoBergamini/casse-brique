@@ -1,7 +1,8 @@
 #include "../include/RenderHandler.hpp"
 
 RenderHandler::RenderHandler(char const *title, int const width, int const height)
-    : m_window(nullptr, SDL_DestroyWindow), m_renderer(nullptr, SDL_DestroyRenderer), m_size(std::pair<int, int>(width, height))
+    : m_window(nullptr, SDL_DestroyWindow), m_renderer(nullptr, SDL_DestroyRenderer), m_size(std::pair<int, int>(width, height)), 
+    m_brickTexture(nullptr), m_sliderTexture(nullptr), m_ballTexture(nullptr)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -27,6 +28,12 @@ RenderHandler::RenderHandler(char const *title, int const width, int const heigh
         SDL_Quit();
         exit(1);
     }
+
+    std::cout << "SDL_CreateRenderer Success" << std::endl;
+
+    m_ballTexture = loadTexture("assets/ball_16x16.bmp");
+    m_brickTexture = loadTexture("assets/brick_256x256.bmp");
+    m_sliderTexture = loadTexture("assets/slider_256x256.bmp");
 
 }
 
@@ -68,10 +75,11 @@ void RenderHandler::renderGame(Game const &g)
     }
 
     g.getSlider().draw(m_renderer.get());
-    g.getBall().draw(m_renderer.get());
+    renderBall(g.getBall());
     
 
     SDL_RenderPresent(m_renderer.get());
+    
 }
 
 void RenderHandler::renderMainTitle()
@@ -142,6 +150,22 @@ void RenderHandler::renderLoaderScreen()
     SDL_RenderPresent(m_renderer.get());
 }
 
+void RenderHandler::renderBrick(Brick const &brick)
+{
+    brick.draw(m_renderer.get());
+}
+
+void RenderHandler::renderSlider(Slider const &slider)
+{
+    slider.draw(m_renderer.get());
+}
+
+void RenderHandler::renderBall(Ball const &ball)
+{
+    SDL_Rect rectDest = {ball.getCoordinates().getX(), ball.getCoordinates().getY(), ball.getRadius(), ball.getRadius()};
+    SDL_RenderCopy(m_renderer.get(), m_ballTexture, NULL, &rectDest);    
+
+}
 
 std::pair<int, int> RenderHandler::getSize() const
 {

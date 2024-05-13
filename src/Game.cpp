@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_ball(Ball(Coordinate(300, 400), 10, Coordinate(-7, 7))), m_state(GameState::RUNNING) {}
+Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_ball(Ball(Coordinate(300, 400), 16, Coordinate(-7, 7))), m_state(GameState::RUNNING) {}
 
 void Game::loadBricks(char const *filename){
     Loader::load(filename, m_bricks);

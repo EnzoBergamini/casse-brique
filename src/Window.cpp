@@ -36,7 +36,7 @@ void Window::mainLoop()
 
         else if (e.type == SDL_QUIT|| (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
         {
-            return;
+            break;
         }
         m_renderHandler.renderMainTitle();
         SDL_WaitEvent(&e);
@@ -53,11 +53,12 @@ void Window::gameLoop()
         Game game = Game();
         game.loadBricks("map");
         std::cout << "Game loaded" << std::endl;
+        game_loop_running :
         SDL_Event e;    
         while (game.update(e) == GameState::RUNNING)
         {
-            game_loop_running :
             m_renderHandler.renderGame(game);
+            SDL_Delay(16);
         }
         
     std::cout << "Game ended" << std::endl;
