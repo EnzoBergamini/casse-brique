@@ -13,6 +13,7 @@ enum class WindowState {
     MAIN_TITLE,
     GAME_OVER,
     PAUSE,
+    PAUSE_AND_SAVED,
     WIN,
     LOADER_SCREEN
 };

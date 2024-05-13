@@ -14,11 +14,13 @@ public:
     ~RenderHandler();
 
     std::pair<int, int> getSize() const;
+    SDL_Texture* loadTexture(char const *path);
 
     void renderGame(Game const &game);
     void renderMainTitle();
     void renderGameOver(int const score);
     void renderPause();
+    void renderPauseAndSaved();
     void renderWin(int const score);
     void renderLoaderScreen();
 

@@ -37,6 +37,26 @@ RenderHandler::~RenderHandler()
     SDL_Quit();
 }
 
+SDL_Texture* RenderHandler::loadTexture(char const *path)
+{
+    SDL_Texture* texture = nullptr;
+    SDL_Surface* surface = nullptr;
+    surface = SDL_LoadBMP(path);
+    if (!surface) {
+        printf("Erreur lors du chargement de l'image : %s\n", SDL_GetError());
+        return nullptr;
+    }
+
+    texture = SDL_CreateTextureFromSurface(m_renderer.get(), surface);
+    SDL_FreeSurface(surface);
+    if (!texture) {
+        printf("Erreur lors de la création de la texture : %s\n", SDL_GetError());
+        return nullptr;
+    }
+
+    return texture;
+}
+
 void RenderHandler::renderGame(Game const &g)
 {
     SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
@@ -56,32 +76,60 @@ void RenderHandler::renderGame(Game const &g)
 
 void RenderHandler::renderMainTitle()
 {
-    SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 255, 255);
+    std::cout << "Rendering main title" << std::endl;
+
+    SDL_Texture* texture = loadTexture("assets/menu_main_title.bmp");
     SDL_RenderClear(m_renderer.get());
+
+    SDL_RenderCopy(m_renderer.get(), texture, NULL, NULL);
 
     SDL_RenderPresent(m_renderer.get());
 }
 
 void RenderHandler::renderGameOver(int const score)
 {
-    SDL_SetRenderDrawColor(m_renderer.get(), 0, 255, 0, 255);
+    std::cout << "Rendering Game Over" << std::endl;
+
+    SDL_Texture* texture = loadTexture("assets/menu_game_over.bmp");
     SDL_RenderClear(m_renderer.get());
+
+    SDL_RenderCopy(m_renderer.get(), texture, NULL, NULL);
 
     SDL_RenderPresent(m_renderer.get());
 }
 
 void RenderHandler::renderPause()
 {
-    SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
+    std::cout << "Rendering PAUSE" << std::endl;
+
+    SDL_Texture* texture = loadTexture("assets/menu_pause.bmp");
     SDL_RenderClear(m_renderer.get());
+
+    SDL_RenderCopy(m_renderer.get(), texture, NULL, NULL);
+
+    SDL_RenderPresent(m_renderer.get());
+}
+
+void RenderHandler::renderPauseAndSaved()
+{
+    std::cout << "Rendering PAUSE" << std::endl;
+
+    SDL_Texture* texture = loadTexture("assets/menu_pause_and_saved.bmp");
+    SDL_RenderClear(m_renderer.get());
+
+    SDL_RenderCopy(m_renderer.get(), texture, NULL, NULL);
 
     SDL_RenderPresent(m_renderer.get());
 }
 
 void RenderHandler::renderWin(int const score)
 {
-    SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
+    std::cout << "Rendering WIN" << std::endl;
+
+    SDL_Texture* texture = loadTexture("assets/menu_win.bmp");
     SDL_RenderClear(m_renderer.get());
+
+    SDL_RenderCopy(m_renderer.get(), texture, NULL, NULL);
 
     SDL_RenderPresent(m_renderer.get());
 }
