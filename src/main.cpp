@@ -8,9 +8,8 @@
 
 int main()
 {
-    Game game = Game();
-    game.loadBricks("map");
+    Window window;
+    window.mainLoop();
 
-    game.run();
     return 0;
 }

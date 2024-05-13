@@ -2,28 +2,34 @@
 #include "Brick.hpp"
 #include "Slider.hpp"
 #include "Ball.hpp"
+#include "RenderHandler.hpp"
 
 #include <SDL.h>
 #include <iostream>
 #include <memory>
 
+enum class WindowState {
+    GAME,
+    MAIN_TITLE,
+    GAME_OVER,
+    PAUSE,
+    PAUSE_AND_SAVED,
+    WIN,
+    LOADER_SCREEN
+};
+
+
 
 class Window {
 public:
-    Window(char const *title, int const width, int const height);
+    Window();
     ~Window();
 
-    std::pair<int, int> getSize() const;
-
-    void init(int const score, std::vector<Brick> const &bricks, Slider const &slider, Ball const &ball);
-    void drawBricks(std::vector<Brick> const &bricks);
-    void drawSlider();
-
-    void waitQuit();
+    void mainLoop();
+    void gameLoop();
 
 private:
-    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;
-    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> m_renderer;
 
-    std::pair<int, int> m_size;
+    RenderHandler m_renderHandler;
+    WindowState m_WindowState;
 };

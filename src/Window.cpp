@@ -1,58 +1,152 @@
 #include "../include/Window.hpp"
 
-Window::Window(char const *title, int const width, int const height)
-    : m_window(nullptr, SDL_DestroyWindow), m_renderer(nullptr, SDL_DestroyRenderer), m_size(std::pair<int, int>(width, height))
+Window::Window()
+    : m_renderHandler("breakout",800, 600 ), m_WindowState(WindowState::MAIN_TITLE)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    {
-        std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        exit(1);
-    }
-
-    std::cout << "SDL_Init Success" << std::endl;
-
-    m_window.reset(SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN));
-    if (m_window == nullptr)
-    {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        exit(1);
-    }
-
-    m_renderer.reset(SDL_CreateRenderer(m_window.get(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC));
-    if (m_renderer == nullptr)
-    {
-        std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        exit(1);
-    }
-
 }
 
 Window::~Window()
 {
-    SDL_Quit();
 }
 
-void Window::init(int const score, std::vector<Brick> const &bricks, Slider const &slider, Ball const &ball)
-{
-    SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
-    SDL_RenderClear(m_renderer.get());
+void Window::mainLoop()
+{   
+    std::cout << "Main loop started" << std::endl;
 
-    for( auto const &brick : bricks)
+    //Commence toujours en MAIN_TITLE
+    m_renderHandler.renderMainTitle();
+    //Check si on pressse sur baree espace pour lancer le jeu
+    SDL_Event e;
+    SDL_WaitEvent(&e);
+
+    while (true)
     {
-        brick.draw(m_renderer.get());
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+        {
+            m_WindowState = WindowState::GAME;
+            gameLoop();
+        }
+
+        else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_l)
+        {
+            m_WindowState = WindowState::LOADER_SCREEN;
+            m_renderHandler.renderLoaderScreen();
+            // Ajouter la fenetre du loader et l'heuristique en plus
+        }
+
+        else if (e.type == SDL_QUIT|| (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
+        {
+            break;
+        }
+        m_renderHandler.renderMainTitle();
+        SDL_WaitEvent(&e);
+
+    }       
+    std::cout << "main loop ended" << std::endl;
+    return;
+}
+
+void Window::gameLoop()
+{
+    //Commence toujours en GAME
+    game_loop_beggining :
+        Game game = Game();
+        game.loadBricks("map");
+        std::cout << "Game loaded" << std::endl;
+        game_loop_running :
+        SDL_Event e;    
+        while (game.update(e) == GameState::RUNNING)
+        {
+            m_renderHandler.renderGame(game);
+            SDL_Delay(16);
+        }
+        
+    std::cout << "Game ended" << std::endl;
+
+    switch (game.getState())
+    {
+    case GameState::GAME_OVER:
+        m_WindowState = WindowState::GAME_OVER;
+        m_renderHandler.renderGameOver(game.getScore());
+        while (true){
+            SDL_WaitEvent(&e);
+            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+            {
+                m_WindowState = WindowState::GAME;
+                goto game_loop_beggining;
+            }
+
+            else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)
+            {
+                break;
+            }
+
+            else if (e.type == SDL_QUIT)
+            {
+                return;
+            }
+        }
+        break;
+
+
+    case GameState::WIN:
+        m_WindowState = WindowState::WIN;
+        m_renderHandler.renderWin(game.getScore());
+        while (true){
+            SDL_WaitEvent(&e);
+            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+            {
+                m_WindowState = WindowState::GAME;
+                goto game_loop_beggining;
+            }
+
+            else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)
+            {
+                break;
+            }
+
+            else if (e.type == SDL_QUIT)
+            {
+                return;
+            }
+        }
+        break;
+    
+    case GameState::PAUSE:
+        m_WindowState = WindowState::PAUSE;
+        m_renderHandler.renderPause();
+
+        while (true){
+            SDL_WaitEvent(&e);
+            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+            {
+                m_WindowState = WindowState::GAME;
+                goto game_loop_running;
+            }
+
+            else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)
+            {
+                break;
+            }
+
+            else if (e.type == SDL_QUIT)
+            {
+                return;
+            }
+
+            else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_s)
+            {
+                m_WindowState = WindowState::PAUSE_AND_SAVED;
+                m_renderHandler.renderPauseAndSaved();
+            }
+
+        }
+        break;
+    
+    default:
+        break;
     }
 
-    slider.draw(m_renderer.get());
-    ball.draw(m_renderer.get());
-    
-
-    SDL_RenderPresent(m_renderer.get());
-}
-
-std::pair<int, int> Window::getSize() const
-{
-    return m_size;
+    m_WindowState = WindowState::MAIN_TITLE;
+    return ;
 }

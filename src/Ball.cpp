@@ -8,17 +8,20 @@ void Ball::move() {
 }
 
 void Ball::draw(SDL_Renderer *renderer) const{
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-    for (int i = 0; i < m_radius; i++) {
-        for (int j = 0; j < m_radius; j++) {
-            if (i * i + j * j <= m_radius * m_radius) {
-                SDL_RenderDrawPoint(renderer, m_coordinates.getX() + i, m_coordinates.getY() + j);
-                SDL_RenderDrawPoint(renderer, m_coordinates.getX() - i, m_coordinates.getY() + j);
-                SDL_RenderDrawPoint(renderer, m_coordinates.getX() + i, m_coordinates.getY() - j);
-                SDL_RenderDrawPoint(renderer, m_coordinates.getX() - i, m_coordinates.getY() - j);
-            }
-        }
-    }
+    // SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+    // for (int i = 0; i < m_radius; i++) {
+    //     for (int j = 0; j < m_radius; j++) {
+    //         if (i * i + j * j <= m_radius * m_radius) {
+    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() + i, m_coordinates.getY() + j);
+    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() - i, m_coordinates.getY() + j);
+    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() + i, m_coordinates.getY() - j);
+    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() - i, m_coordinates.getY() - j);
+    //         }
+    //     }
+    // }
+
+    // Chargement de l'image BMP de la boule
+    
 }
 
 void Ball::setVelocity(Coordinate velocity) {
