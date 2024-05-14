@@ -3,10 +3,10 @@
 
 #include <cmath>
 
-Game::Game(BrickType brickType) : m_brickType(brickType), m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_balls(std::vector<Ball>()), m_state(GameState::RUNNING) {
+Game::Game(BrickType brickType) 
+: m_brickType(brickType), m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_balls(std::vector<Ball>()), m_state(GameState::RUNNING), m_bonuses(std::vector<Bonus>()) {
     m_balls.push_back(Ball(Coordinate(400, 300), 10, Coordinate(1, 2)));
     m_balls.push_back(Ball(Coordinate(400, 300), 10, Coordinate(-1, -2)));
-
 }
 
 void Game::loadBricks(char const *filename){
@@ -24,6 +24,11 @@ GameState Game::update(SDL_Event &e) {
     for (auto &ball : m_balls)
     {
         ball.move();
+    }
+
+    for (auto &bonus : m_bonuses)
+    {
+        bonus.move();
     }
     
     if ((m_state = checkCollision()) != GameState::RUNNING)
@@ -109,6 +114,11 @@ GameState Game::checkCollision() {
                     if (m_bricks.empty())
                     {
                         return GameState::WIN;
+                    }
+                    // Add bonus
+                    if (true)
+                    {
+                        m_bonuses.push_back(Bonus(Coordinate(brick.getCoordinates().getX(), brick.getCoordinates().getY()), 10));
                     }
                 }
             }

@@ -1,7 +1,4 @@
 #pragma once
-#include "Brick.hpp"
-#include "Slider.hpp"
-#include "Ball.hpp"
 #include "Game.hpp"
 
 #include <SDL.h>
@@ -13,7 +10,7 @@ public:
     RenderHandler(char const *title, int const width, int const height);
     ~RenderHandler();
 
-    std::pair<int, int> getSize() const;
+    inline std::pair<int, int> getSize() const { return m_size; }
     SDL_Texture* loadTexture(char const *path);
 
     void renderGame(Game const &game);
@@ -27,7 +24,7 @@ public:
     void renderBrick(Brick const &brick);
     void renderSlider(Slider const &slider);
     void renderBall(Ball const &ball);
-
+    void renderBonus(Bonus const &bonus);
 
 private:
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;

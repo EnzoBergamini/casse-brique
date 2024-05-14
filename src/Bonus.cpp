@@ -20,4 +20,6 @@ Bonus::Bonus(Coordinate coordinates, int radius) : Ball(coordinates, radius, Coo
             m_type = BonusType::INCREASE_SLIDER;
             break;
     }
+
+    std::cout << "Bonus TYPE" << static_cast<int>(m_type) << std::endl;
 }

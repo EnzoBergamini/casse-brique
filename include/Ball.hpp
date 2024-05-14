@@ -16,7 +16,7 @@ public:
     inline int getRadius() const { return m_radius; }
     bool ballCollide(Ball const& ball) const;
 
-private:
+protected:
     int m_radius;
     Coordinate m_velocity;
 };

@@ -81,6 +81,11 @@ void RenderHandler::renderGame(Game const &g)
         renderBall(ball);
     }    
 
+    for( auto const &bonus : g.getBonuses() )
+    {
+        renderBonus(bonus);
+    }
+
     SDL_RenderPresent(m_renderer.get());
     
 }
@@ -199,7 +204,17 @@ void RenderHandler::renderBall(Ball const &ball)
 
 }
 
-std::pair<int, int> RenderHandler::getSize() const
+void RenderHandler::renderBonus(Bonus const &bonus)
 {
-    return m_size;
+    SDL_SetRenderDrawColor(m_renderer.get(), 0, 85, 0, 255);
+    for (int i = 0; i < bonus.getRadius(); i++) {
+        for (int j = 0; j < bonus.getRadius(); j++) {
+            if (i * i + j * j <= bonus.getRadius() * bonus.getRadius()) {
+                SDL_RenderDrawPoint(m_renderer.get(), bonus.getCoordinates().getX() + i, bonus.getCoordinates().getY() + j);
+                SDL_RenderDrawPoint(m_renderer.get(), bonus.getCoordinates().getX() - i, bonus.getCoordinates().getY() + j);
+                SDL_RenderDrawPoint(m_renderer.get(), bonus.getCoordinates().getX() + i, bonus.getCoordinates().getY() - j);
+                SDL_RenderDrawPoint(m_renderer.get(), bonus.getCoordinates().getX() - i, bonus.getCoordinates().getY() - j);
+            }
+        }
+    }
 }
