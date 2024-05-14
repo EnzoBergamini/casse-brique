@@ -14,25 +14,37 @@ bool Ball::ballCollide(Ball const& ball) const   {
 }
 
 void Ball::bounceOnSlider(Slider const& slider) {
-    float slider_center = slider.getCoordinates().getX() + slider.getWidth() / 2;
-    float hit_position = m_coordinates.getX() - slider_center;
-    float ratio = hit_position / (slider.getWidth() / 2);
+    if (m_can_bounce){ 
+        float slider_center = slider.getCoordinates().getX() + slider.getWidth() / 2;
+        float hit_position = m_coordinates.getX() - slider_center;
+        float ratio = hit_position / (slider.getWidth() / 2);
 
-    float max_angle = 70;
+        m_angle = -m_angle + 50 * ratio;
 
-    m_angle = m_angle + 180 + ratio * max_angle;
+        if (m_angle < 0) {
+            m_angle += 360;
+        } else if (m_angle > 360) {
+            m_angle -= 360;
+        }
+
+        move();
+        move();
+    }
 }
 
 void Ball::bounce(bool horizontal) {
-    if (horizontal) {
-        m_angle = 180 - m_angle;
-    } else {
-        m_angle = -m_angle;
-    }
+    if (m_can_bounce){ // pour éviter les rebonds multiples sur un même objet
 
-    if (m_angle < 0) {
-        m_angle += 360;
-    } else if (m_angle > 360) {
-        m_angle -= 360;
+        if (horizontal) {
+            m_angle = 180 - m_angle;
+        } else {
+            m_angle = -m_angle;
+        }
+
+        if (m_angle < 0) {
+            m_angle += 360;
+        } else if (m_angle > 360) {
+            m_angle -= 360;
+        }
     }
 }

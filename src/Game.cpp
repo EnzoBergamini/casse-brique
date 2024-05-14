@@ -4,7 +4,7 @@
 #include <cmath>
 
 Game::Game(BrickType brickType) : m_brickType(brickType), m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_balls(std::vector<Ball>()), m_state(GameState::RUNNING) {
-    m_balls.push_back(Ball(Coordinate(400, 300), 10, 5, 70));
+    m_balls.push_back(Ball(Coordinate(400, 300), 10, 6, 70));
 }
 
 
@@ -45,10 +45,10 @@ GameState Game::handleEvent(SDL_Event &e) {
             switch (e.key.keysym.sym)
             {
             case SDLK_LEFT:
-                m_slider.move(Direction::LEFT, 5);
+                m_slider.move(Direction::LEFT, 10);
                 break;
             case SDLK_RIGHT:
-                m_slider.move(Direction::RIGHT, 5);
+                m_slider.move(Direction::RIGHT, 10);
                 break;
             case SDLK_ESCAPE:
                 return GameState::PAUSE;
@@ -94,7 +94,7 @@ GameState Game::checkCollision() {
         {
             std::cout << "slider collision" << std::endl;
             std::cout << "angle before : " << ball.getAngle() << std::endl;
-            ball.bounce(false);
+            ball.bounceOnSlider(m_slider);
             std::cout << "angle after : " << ball.getAngle() << std::endl;
         }
         if (bally > 600)

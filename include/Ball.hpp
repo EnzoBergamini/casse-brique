@@ -17,6 +17,7 @@ public:
     inline int getRadius() const { return m_radius; }
     inline float getSpeed() const { return m_speed; }
     inline float getAngle() const { return m_angle; }
+
     bool ballCollide(Ball const& ball) const;
 
 
@@ -28,4 +29,5 @@ protected:
     int m_radius;
     float m_speed;
     float m_angle;
+    bool m_can_bounce = true;
 };
