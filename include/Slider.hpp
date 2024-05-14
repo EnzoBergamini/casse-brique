@@ -7,6 +7,8 @@
 #include <SDL.h>
 #include <utility>
 
+class Ball;
+
 class Slider : public Object {
 public:
     Slider(Coordinate coordinates, int width, int height);

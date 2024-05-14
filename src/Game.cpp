@@ -14,6 +14,7 @@ Game::Game(BrickType brickType)
     m_balls.push_back(Ball(Coordinate(400, 350), 20, Coordinate(1, -2)));
 }
 
+
 void Game::loadBricks(char const *filename){
     Loader::load(filename, m_bricks);
 }
@@ -56,10 +57,10 @@ GameState Game::handleEvent(SDL_Event &e) {
             switch (e.key.keysym.sym)
             {
             case SDLK_LEFT:
-                m_slider.move(Direction::LEFT, 5);
+                m_slider.move(Direction::LEFT, 10);
                 break;
             case SDLK_RIGHT:
-                m_slider.move(Direction::RIGHT, 5);
+                m_slider.move(Direction::RIGHT, 10);
                 break;
             case SDLK_ESCAPE:
                 return GameState::PAUSE;
@@ -112,17 +113,19 @@ GameState Game::checkBallsCollision() {
         if (ballx < 0 || ballx > SCREEN_WIDTH)
         {
             std::cout << "wall collision" << std::endl;
-            ball.setVelocity(Coordinate(-ball.getVelocity().getX(), ball.getVelocity().getY()));
+            ball.bounce(true); // horizontal
         }
         if (bally < 0 || bally > SCREEN_HEIGHT)
         {
             std::cout << "wall collision" << std::endl;
-            ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
+            ball.bounce(false);
         }
         if (m_slider.ballCollide(ball))
         {
             std::cout << "slider collision" << std::endl;
-            ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
+            std::cout << "angle before : " << ball.getAngle() << std::endl;
+            ball.bounceOnSlider(m_slider);
+            std::cout << "angle after : " << ball.getAngle() << std::endl;
         }
         if (bally > SCREEN_HEIGHT)
         {
@@ -141,8 +144,10 @@ GameState Game::checkBallsCollision() {
             if (brick.ballCollide(ball))
             {
                 std::cout << "brick collision coord : " << brick.getCoordinates().getX() << " " << brick.getCoordinates().getY() << std::endl;
+                std::cout << "angle before : " << ball.getAngle() << std::endl;
+                ball.bounce(false);
+                std::cout << "angle after : " << ball.getAngle() << std::endl;
                 m_score++;
-                ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
                 if (brick.hit()){
                     m_bricks.erase(std::remove(m_bricks.begin(), m_bricks.end(), brick), m_bricks.end());
                     if (m_bricks.empty())
@@ -163,8 +168,8 @@ GameState Game::checkBallsCollision() {
         {
             if (&ball != &otherBall && ball.ballCollide(otherBall))
             {
+                ball.bounce(false);
                 std::cout << "ball collision" << std::endl;
-                ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
             }
         }
     }
