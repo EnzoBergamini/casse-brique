@@ -14,8 +14,6 @@ public:
 
     inline void setCoordinates(Coordinate coordinates) { m_coordinates = coordinates; };
 
-    virtual void draw(SDL_Renderer *renderer) const = 0;
-
 protected:
     Coordinate m_coordinates;
 };

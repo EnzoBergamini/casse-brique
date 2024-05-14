@@ -3,8 +3,10 @@
 
 #include <cmath>
 
-Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_balls(std::vector<Ball>()), m_state(GameState::RUNNING) {
-    m_balls.push_back(Ball(Coordinate(400, 300), 10, Coordinate(1, 5)));
+Game::Game(BrickType brickType) : m_brickType(brickType), m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_balls(std::vector<Ball>()), m_state(GameState::RUNNING) {
+    m_balls.push_back(Ball(Coordinate(400, 300), 10, Coordinate(1, 2)));
+    m_balls.push_back(Ball(Coordinate(400, 300), 10, Coordinate(-1, -2)));
+
 }
 
 void Game::loadBricks(char const *filename){
@@ -18,6 +20,7 @@ GameState Game::update(SDL_Event &e) {
     {
         return m_state;
     }
+
     for (auto &ball : m_balls)
     {
         ball.move();
@@ -92,7 +95,8 @@ GameState Game::checkCollision() {
         {
             return GameState::GAME_OVER;
         }
-
+        
+        // Check collision with bricks
         for (auto &brick : m_bricks)
         {
             if (brick.ballCollide(ball))
@@ -109,6 +113,18 @@ GameState Game::checkCollision() {
                 }
             }
         }
+        // Check collision with other balls
+        // Do not check the first balls that have already been checked
+        for (auto &otherBall : m_balls)
+        {
+            if (&ball != &otherBall && ball.ballCollide(otherBall))
+            {
+                std::cout << "ball collision" << std::endl;
+                ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
+            }
+        }
+
+
     }
 
     return GameState::RUNNING;

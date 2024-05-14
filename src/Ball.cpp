@@ -17,7 +17,3 @@ bool Ball::ballCollide(Ball const& ball) const   {
            (m_radius + ball.getRadius()) * (m_radius + ball.getRadius());
 }
 
-void Ball::draw(SDL_Renderer *renderer) const {
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-    SDL_RenderDrawPoint(renderer, m_coordinates.getX(), m_coordinates.getY());
-}

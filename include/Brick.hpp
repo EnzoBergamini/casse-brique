@@ -8,16 +8,17 @@
 #include <vector>
 #include <SDL.h>
 
+
 class Brick : public Object {
 public:
     Brick(int health, Coordinate coordinates, int width, int height);
-
-    void draw(SDL_Renderer *renderer) const override;
 
     bool ballCollide(Ball const& ball);
     bool hit();
 
     inline int getHealth() const { return m_health; }
+    inline int getWidth() const { return m_width; }
+    inline int getHeight() const { return m_height; }
 
     bool operator==(const Brick &brick) const;
 

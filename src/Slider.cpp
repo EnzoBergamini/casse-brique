@@ -17,18 +17,6 @@ void Slider::move(Direction dir, int velocity) {
     }
 }   
 
-void Slider::draw(SDL_Renderer *renderer) const{
-    SDL_Rect rect = {
-        m_coordinates.getX(),
-        m_coordinates.getY(),
-        m_width, 
-        m_height
-    };
-
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderFillRect(renderer, &rect);    
-}
-
 bool Slider::ballCollide(Ball const& ball) const {
     return   m_coordinates.getX() < ball.getCoordinates().getX() + ball.getRadius() &&
              m_coordinates.getX() + m_width > ball.getCoordinates().getX() &&

@@ -71,10 +71,10 @@ void RenderHandler::renderGame(Game const &g)
 
     for( auto const &brick : g.getBricks() )
     {
-        brick.draw(m_renderer.get());
+        renderBrick(brick);
     }
 
-    g.getSlider().draw(m_renderer.get());
+    renderSlider(g.getSlider());
 
     for( auto const &ball : g.getBalls() )
     {
@@ -155,12 +155,27 @@ void RenderHandler::renderLoaderScreen()
 
 void RenderHandler::renderBrick(Brick const &brick)
 {
-    brick.draw(m_renderer.get());
+    SDL_Rect rect = {
+        brick.getCoordinates().getX(),
+        brick.getCoordinates().getY(),
+        brick.getWidth(), 
+        brick.getHeight()   
+    };
+    SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 255, 255);
+    SDL_RenderFillRect(m_renderer.get(), &rect);
 }
 
 void RenderHandler::renderSlider(Slider const &slider)
 {
-    slider.draw(m_renderer.get());
+    SDL_Rect rect = {
+        slider.getCoordinates().getX(),
+        slider.getCoordinates().getY(),
+        slider.getWidth(), 
+        slider.getHeight()
+    };
+
+    SDL_SetRenderDrawColor(m_renderer.get(), 255, 0, 0, 255);
+    SDL_RenderFillRect(m_renderer.get(), &rect);
 }
 
 void RenderHandler::renderBall(Ball const &ball)

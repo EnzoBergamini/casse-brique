@@ -13,10 +13,15 @@ enum class GameState {
     PAUSE,
     WIN
 };
+enum class BrickType {
+    RECTANGLE,
+    TRIANGLE,
+    OCTOGON
+};
 
 class Game {
 public:
-    Game();
+    Game( BrickType type = BrickType::RECTANGLE);
     void loadBricks(char const *filename);
     GameState update(SDL_Event &e);
     GameState handleEvent(SDL_Event &e);
@@ -34,4 +39,5 @@ private:
     std::vector<Ball> m_balls;
     int m_score;
     mutable GameState m_state;
+    BrickType m_brickType;
 };
