@@ -2,10 +2,6 @@
 
 Brick::Brick(int health, Coordinate coordinates, int width, int height) : Object(coordinates), m_health(health), m_width(width), m_height(height) {}
 
-int Brick::getHealth() const {
-    return m_health;
-}
-
 void Brick::draw(SDL_Renderer *renderer) const{
     SDL_Rect rect = {
         m_coordinates.getX(),
@@ -17,15 +13,13 @@ void Brick::draw(SDL_Renderer *renderer) const{
     SDL_RenderFillRect(renderer, &rect);
 }
 
-std::vector<Coordinate> Brick::getHitbox() const {
-    std::vector<Coordinate> hitbox;
-    for (int i = 0; i < m_width; i++) {
-        for (int j = 0; j < m_height; j++) {
-            hitbox.push_back(Coordinate(m_coordinates.getX() + i, m_coordinates.getY() + j));
-        }
-    }
-    return hitbox;
+bool Brick::ballCollide(Ball const& ball) {
+    return  (m_coordinates.getX() < ball.getCoordinates().getX() + ball.getRadius() &&
+             m_coordinates.getX() + m_width > ball.getCoordinates().getX() &&
+             m_coordinates.getY() < ball.getCoordinates().getY() + ball.getRadius() &&
+             m_coordinates.getY() + m_height > ball.getCoordinates().getY());
 }
+
 
 bool Brick::hit() {
     if (m_health <= 1){
@@ -39,3 +33,4 @@ bool Brick::hit() {
 bool Brick::operator==(const Brick &brick) const {
     return m_coordinates == brick.getCoordinates();
 }
+

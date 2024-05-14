@@ -2,6 +2,7 @@
 
 #include "Direction.hpp"
 #include "Object.hpp"
+#include "Ball.hpp"
 
 #include <SDL.h>
 #include <utility>
@@ -16,11 +17,10 @@ public:
 
     void draw(SDL_Renderer *renderer) const override;
 
-    std::vector<Coordinate> getHitbox() const override;
+    inline int getWidth() const { return m_width; }
+    inline int getHeight() const { return m_height; }
 
-    int getWidth() const;
-
-    int getHeight() const;
+    bool ballCollide(Ball const& ball) const;
 
 
 

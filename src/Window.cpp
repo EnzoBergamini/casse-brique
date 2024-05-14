@@ -53,12 +53,13 @@ void Window::gameLoop()
         Game game = Game();
         game.loadBricks("map");
         std::cout << "Game loaded" << std::endl;
+        
         game_loop_running :
         SDL_Event e;    
         while (game.update(e) == GameState::RUNNING)
         {
             m_renderHandler.renderGame(game);
-            SDL_Delay(16);
+            SDL_Delay(160);
         }
         
     std::cout << "Game ended" << std::endl;

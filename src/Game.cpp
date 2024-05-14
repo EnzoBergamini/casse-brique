@@ -59,29 +59,34 @@ GameState Game::handleEvent(SDL_Event &e) {
 }
 
 GameState Game::checkCollision() {
-    if (m_ball.getCoordinates().getX() < 0 || m_ball.getCoordinates().getX() > 800)
+
+    int ballx = m_ball.getCoordinates().getX();
+    int bally = m_ball.getCoordinates().getY();
+    int ballr = m_ball.getRadius();
+
+    if (ballx < 0 || ballx > 800)
     {
         std::cout << "wall collision" << std::endl;
         m_ball.setVelocity(Coordinate(-m_ball.getVelocity().getX(), m_ball.getVelocity().getY()));
     }
-    if (m_ball.getCoordinates().getY() < 0 || m_ball.getCoordinates().getY() > 600)
+    if (bally < 0 || bally > 600)
     {
         std::cout << "wall collision" << std::endl;
         m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
     }
-    if (m_slider.isColliding(m_ball))
+    if (m_slider.ballCollide(m_ball))
     {
         std::cout << "slider collision" << std::endl;
         m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
     }
-    if (m_ball.getCoordinates().getY() > 600)
+    if (bally > 600)
     {
         return GameState::GAME_OVER;
     }
-
+    
     for (auto &brick : m_bricks)
     {
-        if (brick.isColliding(m_ball))
+        if (brick.ballCollide(m_ball))
         {
             std::cout << "brick collision coord : " << brick.getCoordinates().getX() << " " << brick.getCoordinates().getY() << std::endl;
             m_score++;

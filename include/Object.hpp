@@ -9,12 +9,10 @@
 class Object {
 public:
     Object(Coordinate coordinates);
-    Coordinate getCoordinates() const;
-    void setCoordinates(Coordinate coordinates);
 
-    bool isColliding(Object const &other) const;
+    inline Coordinate getCoordinates() const { return m_coordinates; };
 
-    virtual std::vector<Coordinate> getHitbox() const = 0;
+    inline void setCoordinates(Coordinate coordinates) { m_coordinates = coordinates; };
 
     virtual void draw(SDL_Renderer *renderer) const = 0;
 

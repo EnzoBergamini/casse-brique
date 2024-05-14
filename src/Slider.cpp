@@ -29,20 +29,9 @@ void Slider::draw(SDL_Renderer *renderer) const{
     SDL_RenderFillRect(renderer, &rect);    
 }
 
-int Slider::getWidth() const {
-    return m_width;
-}
-
-int Slider::getHeight() const {
-    return m_height;
-}
-
-std::vector<Coordinate> Slider::getHitbox() const {
-    std::vector<Coordinate> hitbox;
-    for (int i = 0; i < m_width; i++) {
-        for (int j = 0; j < m_height; j++) {
-            hitbox.push_back(Coordinate(m_coordinates.getX() + i, m_coordinates.getY() + j));
-        }
-    }
-    return hitbox;
+bool Slider::ballCollide(Ball const& ball) const {
+    return   m_coordinates.getX() < ball.getCoordinates().getX() + ball.getRadius() &&
+             m_coordinates.getX() + m_width > ball.getCoordinates().getX() &&
+             m_coordinates.getY() < ball.getCoordinates().getY() + ball.getRadius() &&
+             m_coordinates.getY() + m_height > ball.getCoordinates().getY();
 }
