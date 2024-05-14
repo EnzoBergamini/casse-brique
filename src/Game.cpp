@@ -6,7 +6,7 @@
 Game::Game(BrickType brickType) 
 : m_brickType(brickType), m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_state(GameState::RUNNING),
     m_balls(std::vector<Ball>()), m_bonuses(std::vector<Bonus>()), m_bullets(std::vector<Ball>()),
-    m_lives(3) 
+    m_lives(10) 
 
 {
     m_balls.push_back(Ball(Coordinate(200, 300), 20, 5, 90));

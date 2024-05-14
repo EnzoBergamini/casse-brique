@@ -115,7 +115,7 @@ void Window::gameLoop()
     
     case GameState::PAUSE:
         m_WindowState = WindowState::PAUSE;
-        m_renderHandler.renderPause();
+        m_renderHandler.renderPause(game);
 
         while (true){
             SDL_WaitEvent(&e);
@@ -138,7 +138,7 @@ void Window::gameLoop()
             else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_s)
             {
                 m_WindowState = WindowState::PAUSE_AND_SAVED;
-                m_renderHandler.renderPauseAndSaved();
+                m_renderHandler.renderPauseAndSaved(game);
             }
 
         }

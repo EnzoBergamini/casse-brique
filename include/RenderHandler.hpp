@@ -13,13 +13,18 @@ public:
     inline std::pair<int, int> getSize() const { return m_size; }
     SDL_Texture* loadTexture(char const *path, bool const transparancy = false);
 
-    void renderGame(Game const &game);
+    
     void renderMainTitle();
     void renderGameOver(int const score);
-    void renderPause();
-    void renderPauseAndSaved();
+
+    void renderPause(Game const &game);
+    void renderPauseAndSaved(Game const &game);
+    void renderLife(Game const &game);
+
     void renderWin(int const score);
     void renderLoaderScreen();
+
+    void renderGame(Game const &game);
 
     void renderBrick(Brick const &brick);
     void renderSlider(Slider const &slider);

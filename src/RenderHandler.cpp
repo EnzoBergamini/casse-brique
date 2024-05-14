@@ -132,7 +132,7 @@ void RenderHandler::renderGameOver(int const score)
     SDL_RenderPresent(m_renderer.get());
 }
 
-void RenderHandler::renderPause()
+void RenderHandler::renderPause(Game const &game)
 {
     std::cout << "Rendering PAUSE" << std::endl;
 
@@ -141,10 +141,12 @@ void RenderHandler::renderPause()
 
     SDL_RenderCopy(m_renderer.get(), texture, NULL, NULL);
 
+    renderLife(game);
+
     SDL_RenderPresent(m_renderer.get());
 }
 
-void RenderHandler::renderPauseAndSaved()
+void RenderHandler::renderPauseAndSaved(Game const &game)
 {
     std::cout << "Rendering PAUSE" << std::endl;
 
@@ -153,7 +155,26 @@ void RenderHandler::renderPauseAndSaved()
 
     SDL_RenderCopy(m_renderer.get(), texture, NULL, NULL);
 
+    renderLife(game);
+
     SDL_RenderPresent(m_renderer.get());
+}
+
+void RenderHandler::renderLife(Game const &game)
+{
+    std::cout << "Rendering Life" << std::endl;
+
+    // Getting the number of life
+
+    int nbLife = game.getLives();
+    int SpaceDisplay = m_size.first - 100;
+     int SizeHeart = 20;
+
+    for (int i = 0; i < nbLife; i++)
+    {
+        SDL_Rect rect = { SpaceDisplay - i * (SizeHeart + 10), 10, SizeHeart, SizeHeart};
+        SDL_RenderCopy(m_renderer.get(), m_bonus_lifeTexture, NULL, &rect);
+    }
 }
 
 void RenderHandler::renderWin(int const score)

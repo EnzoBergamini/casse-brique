@@ -40,6 +40,7 @@ public:
     inline BrickType getBrickType() const { return m_brickType; }
     inline std::vector<Bonus> const &getBonuses() const { return m_bonuses; }
     inline std::vector<Ball> const &getBullets() const { return m_bullets; }
+    inline int getLives() const { return m_lives; }
 
 private:
     BrickType m_brickType;
