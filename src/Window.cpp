@@ -59,7 +59,7 @@ void Window::gameLoop()
         while (game.update(e) == GameState::RUNNING)
         {
             m_renderHandler.renderGame(game);
-            SDL_Delay(160);
+            SDL_Delay(100);
         }
         
     std::cout << "Game ended" << std::endl;

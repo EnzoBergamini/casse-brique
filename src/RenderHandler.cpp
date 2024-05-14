@@ -75,8 +75,11 @@ void RenderHandler::renderGame(Game const &g)
     }
 
     g.getSlider().draw(m_renderer.get());
-    renderBall(g.getBall());
-    
+
+    for( auto const &ball : g.getBalls() )
+    {
+        renderBall(ball);
+    }    
 
     SDL_RenderPresent(m_renderer.get());
     

@@ -3,7 +3,9 @@
 
 #include <cmath>
 
-Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_ball(Ball(Coordinate(300, 400), 16, Coordinate(-7, 7))), m_state(GameState::RUNNING) {}
+Game::Game() : m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_balls(std::vector<Ball>()), m_state(GameState::RUNNING) {
+    m_balls.push_back(Ball(Coordinate(400, 300), 10, Coordinate(1, 5)));
+}
 
 void Game::loadBricks(char const *filename){
     Loader::load(filename, m_bricks);
@@ -16,7 +18,11 @@ GameState Game::update(SDL_Event &e) {
     {
         return m_state;
     }
-    m_ball.move();
+    for (auto &ball : m_balls)
+    {
+        ball.move();
+    }
+    
     if ((m_state = checkCollision()) != GameState::RUNNING)
     {
         return m_state;
@@ -32,10 +38,10 @@ GameState Game::handleEvent(SDL_Event &e) {
             switch (e.key.keysym.sym)
             {
             case SDLK_LEFT:
-                m_slider.move(Direction::LEFT, 20);
+                m_slider.move(Direction::LEFT, 5);
                 break;
             case SDLK_RIGHT:
-                m_slider.move(Direction::RIGHT, 20);
+                m_slider.move(Direction::RIGHT, 5);
                 break;
             case SDLK_ESCAPE:
                 return GameState::PAUSE;
@@ -60,42 +66,46 @@ GameState Game::handleEvent(SDL_Event &e) {
 
 GameState Game::checkCollision() {
 
-    int ballx = m_ball.getCoordinates().getX();
-    int bally = m_ball.getCoordinates().getY();
-    int ballr = m_ball.getRadius();
+    for (auto &ball : m_balls)
+    {
 
-    if (ballx < 0 || ballx > 800)
-    {
-        std::cout << "wall collision" << std::endl;
-        m_ball.setVelocity(Coordinate(-m_ball.getVelocity().getX(), m_ball.getVelocity().getY()));
-    }
-    if (bally < 0 || bally > 600)
-    {
-        std::cout << "wall collision" << std::endl;
-        m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
-    }
-    if (m_slider.ballCollide(m_ball))
-    {
-        std::cout << "slider collision" << std::endl;
-        m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
-    }
-    if (bally > 600)
-    {
-        return GameState::GAME_OVER;
-    }
-    
-    for (auto &brick : m_bricks)
-    {
-        if (brick.ballCollide(m_ball))
+        int ballx = ball.getCoordinates().getX();
+        int bally = ball.getCoordinates().getY();
+        int ballr = ball.getRadius();
+
+        if (ballx < 0 || ballx > 800)
         {
-            std::cout << "brick collision coord : " << brick.getCoordinates().getX() << " " << brick.getCoordinates().getY() << std::endl;
-            m_score++;
-            m_ball.setVelocity(Coordinate(m_ball.getVelocity().getX(), -m_ball.getVelocity().getY()));
-            if (brick.hit()){
-                m_bricks.erase(std::remove(m_bricks.begin(), m_bricks.end(), brick), m_bricks.end());
-                if (m_bricks.empty())
-                {
-                    return GameState::WIN;
+            std::cout << "wall collision" << std::endl;
+            ball.setVelocity(Coordinate(-ball.getVelocity().getX(), ball.getVelocity().getY()));
+        }
+        if (bally < 0 || bally > 600)
+        {
+            std::cout << "wall collision" << std::endl;
+            ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
+        }
+        if (m_slider.ballCollide(ball))
+        {
+            std::cout << "slider collision" << std::endl;
+            ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
+        }
+        if (bally > 600)
+        {
+            return GameState::GAME_OVER;
+        }
+
+        for (auto &brick : m_bricks)
+        {
+            if (brick.ballCollide(ball))
+            {
+                std::cout << "brick collision coord : " << brick.getCoordinates().getX() << " " << brick.getCoordinates().getY() << std::endl;
+                m_score++;
+                ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
+                if (brick.hit()){
+                    m_bricks.erase(std::remove(m_bricks.begin(), m_bricks.end(), brick), m_bricks.end());
+                    if (m_bricks.empty())
+                    {
+                        return GameState::WIN;
+                    }
                 }
             }
         }
