@@ -7,43 +7,13 @@ void Ball::move() {
     m_coordinates.setY(m_coordinates.getY() + m_velocity.getY());
 }
 
-void Ball::draw(SDL_Renderer *renderer) const{
-    // SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-    // for (int i = 0; i < m_radius; i++) {
-    //     for (int j = 0; j < m_radius; j++) {
-    //         if (i * i + j * j <= m_radius * m_radius) {
-    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() + i, m_coordinates.getY() + j);
-    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() - i, m_coordinates.getY() + j);
-    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() + i, m_coordinates.getY() - j);
-    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() - i, m_coordinates.getY() - j);
-    //         }
-    //     }
-    // }
-
-    // Chargement de l'image BMP de la boule
-    
-}
-
 void Ball::setVelocity(Coordinate velocity) {
     m_velocity = velocity;
 }
 
-Coordinate Ball::getVelocity() const {
-    return m_velocity;
-}
-
-std::vector<Coordinate> Ball::getHitbox() const {
-    std::vector<Coordinate> hitbox;
-    for (int i = 0; i < m_radius; i++) {
-        for (int j = 0; j < m_radius; j++) {
-            if (i * i + j * j <= m_radius * m_radius) {
-                hitbox.push_back(Coordinate(m_coordinates.getX() + i, m_coordinates.getY() + j));
-                hitbox.push_back(Coordinate(m_coordinates.getX() - i, m_coordinates.getY() + j));
-                hitbox.push_back(Coordinate(m_coordinates.getX() + i, m_coordinates.getY() - j));
-                hitbox.push_back(Coordinate(m_coordinates.getX() - i, m_coordinates.getY() - j));
-            }
-        }
-    }
-    return hitbox;
+bool Ball::ballCollide(Ball const& ball) const   {
+    return (m_coordinates.getX() - ball.getCoordinates().getX()) * (m_coordinates.getX() - ball.getCoordinates().getX()) +
+           (m_coordinates.getY() - ball.getCoordinates().getY()) * (m_coordinates.getY() - ball.getCoordinates().getY()) <=
+           (m_radius + ball.getRadius()) * (m_radius + ball.getRadius());
 }
 

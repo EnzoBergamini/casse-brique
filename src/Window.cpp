@@ -50,15 +50,16 @@ void Window::gameLoop()
 {
     //Commence toujours en GAME
     game_loop_beggining :
-        Game game = Game();
+        Game game = Game( BrickType::RECTANGLE );
         game.loadBricks("map");
         std::cout << "Game loaded" << std::endl;
+        
         game_loop_running :
         SDL_Event e;    
         while (game.update(e) == GameState::RUNNING)
         {
             m_renderHandler.renderGame(game);
-            SDL_Delay(16);
+            SDL_Delay(50);
         }
         
     std::cout << "Game ended" << std::endl;

@@ -10,15 +10,11 @@ public:
     Ball(Coordinate coordinates, int radius, Coordinate velocity);
 
     void move();
-
     void setVelocity(Coordinate velocity);
 
-    Coordinate getVelocity() const;
-
-    void draw(SDL_Renderer *renderer) const override;
-
-    std::vector<Coordinate> getHitbox() const override;
+    inline Coordinate getVelocity() const { return m_velocity; }
     inline int getRadius() const { return m_radius; }
+    bool ballCollide(Ball const& ball) const;
 
 private:
     int m_radius;

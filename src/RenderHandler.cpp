@@ -71,12 +71,15 @@ void RenderHandler::renderGame(Game const &g)
 
     for( auto const &brick : g.getBricks() )
     {
-        brick.draw(m_renderer.get());
+        renderBrick(brick);
     }
 
-    g.getSlider().draw(m_renderer.get());
-    renderBall(g.getBall());
-    
+    renderSlider(g.getSlider());
+
+    for( auto const &ball : g.getBalls() )
+    {
+        renderBall(ball);
+    }    
 
     SDL_RenderPresent(m_renderer.get());
     
@@ -152,18 +155,47 @@ void RenderHandler::renderLoaderScreen()
 
 void RenderHandler::renderBrick(Brick const &brick)
 {
-    brick.draw(m_renderer.get());
+    SDL_Rect rect = {
+        brick.getCoordinates().getX(),
+        brick.getCoordinates().getY(),
+        brick.getWidth(), 
+        brick.getHeight()   
+    };
+    SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 255, 255);
+    SDL_RenderFillRect(m_renderer.get(), &rect);
 }
 
 void RenderHandler::renderSlider(Slider const &slider)
 {
-    slider.draw(m_renderer.get());
+    SDL_Rect rect = {
+        slider.getCoordinates().getX(),
+        slider.getCoordinates().getY(),
+        slider.getWidth(), 
+        slider.getHeight()
+    };
+
+    SDL_SetRenderDrawColor(m_renderer.get(), 255, 0, 0, 255);
+    SDL_RenderFillRect(m_renderer.get(), &rect);
 }
 
 void RenderHandler::renderBall(Ball const &ball)
 {
     SDL_Rect rectDest = {ball.getCoordinates().getX(), ball.getCoordinates().getY(), ball.getRadius(), ball.getRadius()};
     SDL_RenderCopy(m_renderer.get(), m_ballTexture, NULL, &rectDest);    
+
+    // SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+    // for (int i = 0; i < m_radius; i++) {
+    //     for (int j = 0; j < m_radius; j++) {
+    //         if (i * i + j * j <= m_radius * m_radius) {
+    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() + i, m_coordinates.getY() + j);
+    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() - i, m_coordinates.getY() + j);
+    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() + i, m_coordinates.getY() - j);
+    //             SDL_RenderDrawPoint(renderer, m_coordinates.getX() - i, m_coordinates.getY() - j);
+    //         }
+    //     }
+    // }
+
+    // Chargement de l'image BMP de la boule
 
 }
 
