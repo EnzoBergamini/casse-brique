@@ -4,13 +4,12 @@
 #include <cmath>
 
 Game::Game(BrickType brickType) 
-: m_brickType(brickType), m_score(0), m_slider(Coordinate(300, SCREEN_HEIGHT -100 ),SCREEN_WIDTH /10, 15), m_state(GameState::RUNNING),
+: m_brickType(brickType), m_score(0), m_slider(Coordinate(SCREEN_WIDTH /2, SCREEN_HEIGHT -100 ),SCREEN_WIDTH /10, 15), m_state(GameState::RUNNING),
     m_balls(std::vector<Ball>()), m_bonuses(std::vector<Bonus>()), m_bullets(std::vector<Ball>()),
     m_lives(10) 
 
 {
-    m_balls.push_back(Ball(Coordinate(200, 300), 20, 5, 90));
-    m_balls.push_back(Ball(Coordinate(400, 300), 20, 10, 230));
+    m_balls.push_back(Ball(Coordinate(SCREEN_WIDTH /2, SCREEN_HEIGHT /3 *2), 20, 5, 90));
 }
 
 
