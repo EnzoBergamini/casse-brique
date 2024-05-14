@@ -51,7 +51,7 @@ void Window::gameLoop()
     //Commence toujours en GAME
     game_loop_beggining :
         Game game = Game( BrickType::RECTANGLE );
-        game.loadBricks("map");
+        game.loadBricks("maps/map");
         std::cout << "Game loaded" << std::endl;
         
         game_loop_running :

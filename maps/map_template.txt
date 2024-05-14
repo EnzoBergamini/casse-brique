@@ -1,0 +1,6 @@
+Template des maps :
+#(Nb colonnes par ligne = N ) #(Nb ligne = P) #(Type de brick)
+#(Vie Brick 1,1) #(Vie Brick 1,2) ...   #(Vie Brick 1,N)
+#(Vie Brique2,1) ...
+...
+#(Vie Brique P,1) ...                   #(Vie Brique P,N)
