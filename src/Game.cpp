@@ -108,16 +108,30 @@ GameState Game::checkBallsCollision() {
         int ballx = ball.getCoordinates().getX();
         int bally = ball.getCoordinates().getY();
 
-        if (ballx < 0 || ballx > SCREEN_WIDTH)
+        if (ballx < 0) // Left wall
         {
             std::cout << "wall collision" << std::endl;
-            ball.bounce(true); // horizontal
+            ball.bounce(Coordinate(1, 0));
         }
-        if (bally < 0 || bally > SCREEN_HEIGHT)
+
+        if (ballx > SCREEN_WIDTH) // Right wall
         {
             std::cout << "wall collision" << std::endl;
-            ball.bounce(false);
+            ball.bounce(Coordinate(-1, 0));
         }
+
+        if (bally < 0) // Top wall
+        {
+            std::cout << "wall collision" << std::endl;
+            ball.bounce(Coordinate(0, 1));
+        }
+
+        if (bally > SCREEN_HEIGHT) // Bottom wall
+        {
+            std::cout << "wall collision" << std::endl;
+            ball.bounce(Coordinate(0, -1));
+        }
+
         if (m_slider.ballCollide(ball))
         {
             std::cout << "slider collision" << std::endl;
@@ -142,9 +156,7 @@ GameState Game::checkBallsCollision() {
             if (brick.ballCollide(ball))
             {
                 std::cout << "brick collision coord : " << brick.getCoordinates().getX() << " " << brick.getCoordinates().getY() << std::endl;
-                std::cout << "angle before : " << ball.getAngle() << std::endl;
-                ball.bounce(false);
-                std::cout << "angle after : " << ball.getAngle() << std::endl;
+                ball.bounceOnObject(brick);
                 m_score++;
                 if (brick.hit()){
                     m_bricks.erase(std::remove(m_bricks.begin(), m_bricks.end(), brick), m_bricks.end());
@@ -166,7 +178,7 @@ GameState Game::checkBallsCollision() {
         {
             if (&ball != &otherBall && ball.ballCollide(otherBall))
             {
-                ball.bounce(false);
+
                 std::cout << "ball collision" << std::endl;
             }
         }

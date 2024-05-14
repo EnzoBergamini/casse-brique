@@ -16,6 +16,10 @@ public:
     bool ballCollide(Ball const& ball);
     bool hit();
 
+    Coordinate getNormal(Coordinate const& point) const;
+
+    Coordinate closeBorderPoint(Coordinate const& point) const;
+
     inline int getHealth() const { return m_health; }
     inline int getWidth() const { return m_width; }
     inline int getHeight() const { return m_height; }
