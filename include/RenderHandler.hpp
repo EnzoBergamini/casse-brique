@@ -11,7 +11,7 @@ public:
     ~RenderHandler();
 
     inline std::pair<int, int> getSize() const { return m_size; }
-    SDL_Texture* loadTexture(char const *path);
+    SDL_Texture* loadTexture(char const *path, bool const transparancy = false);
 
     void renderGame(Game const &game);
     void renderMainTitle();

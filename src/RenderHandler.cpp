@@ -32,17 +32,17 @@ RenderHandler::RenderHandler(char const *title, int const width, int const heigh
     std::cout << "SDL_CreateRenderer Success" << std::endl;
 
     // Chargement des textures
-    m_ballTexture = loadTexture("assets/ball_16x16.bmp");
-    m_brickTexture = loadTexture("assets/brick_256x256.bmp");
-    m_sliderTexture = loadTexture("assets/slider_256x256.bmp");
-    m_bulletTexture = loadTexture("assets/bullet_16x16.bmp");
+    m_ballTexture = loadTexture("assets/ball_16x16.bmp", true);
+    m_brickTexture = loadTexture("assets/brick_256x256.bmp", true);
+    m_sliderTexture = loadTexture("assets/slider_256x256.bmp", true);
+    m_bulletTexture = loadTexture("assets/bullet_16x16.bmp", true);
 
-    m_bonus_add_ballTexture = loadTexture("assets/bonus_add_ball16x16.bmp");
-    m_bonus_bulletTexture = loadTexture("assets/bonus_bullet16x16.bmp");
-    m_bonus_increase_sliderTexture = loadTexture("assets/bonus_increase_slider16x16.bmp");
-    m_bonus_increase_ballsTexture = loadTexture("assets/bonus_increase_balls16x16.bmp");
-    m_bonus_lifeTexture = loadTexture("assets/bonus_life16x16.bmp");
-    m_bonus_little_ballsTexture = loadTexture("assets/bonus_little_balls16x16.bmp");
+    m_bonus_add_ballTexture = loadTexture("assets/bonus_add_ball16x16.bmp", true);
+    m_bonus_bulletTexture = loadTexture("assets/bonus_bullet16x16.bmp", true);
+    m_bonus_increase_sliderTexture = loadTexture("assets/bonus_increase_slider16x16.bmp", true);
+    m_bonus_increase_ballsTexture = loadTexture("assets/bonus_increase_balls16x16.bmp", true);
+    m_bonus_lifeTexture = loadTexture("assets/bonus_life16x16.bmp", true);
+    m_bonus_little_ballsTexture = loadTexture("assets/bonus_little_balls16x16.bmp", true);
 
     std::cout << "Textures loaded" << std::endl;
 
@@ -56,7 +56,7 @@ RenderHandler::~RenderHandler()
     SDL_Quit();
 }
 
-SDL_Texture* RenderHandler::loadTexture(char const *path)
+SDL_Texture* RenderHandler::loadTexture(char const *path, bool const transparancy)
 {
     SDL_Texture* texture = nullptr;
     SDL_Surface* surface = nullptr;
@@ -65,6 +65,7 @@ SDL_Texture* RenderHandler::loadTexture(char const *path)
         printf("Erreur lors du chargement de l'image : %s\n", SDL_GetError());
         return nullptr;
     }
+    if(transparancy) {SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 0, 0, 0));};
 
     texture = SDL_CreateTextureFromSurface(m_renderer.get(), surface);
     SDL_FreeSurface(surface);
