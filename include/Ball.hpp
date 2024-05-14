@@ -19,11 +19,12 @@ public:
     inline float getAngle() const { return m_angle; }
     bool ballCollide(Ball const& ball) const;
 
+
     void bounceOnSlider(Slider const& slider);
 
     void bounce(bool horizontal);
 
-private:
+protected:
     int m_radius;
     float m_speed;
     float m_angle;

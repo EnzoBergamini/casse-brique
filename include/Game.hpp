@@ -3,6 +3,7 @@
 #include "Brick.hpp"
 #include "Loader.hpp"
 #include "Ball.hpp"
+#include "Bonus.hpp"
 
 #include <vector>
 #include <algorithm>
@@ -32,6 +33,8 @@ public:
     inline std::vector<Ball> const &getBalls() const { return m_balls; }
     inline int getScore() const { return m_score; }
     inline GameState getState() const { return m_state; }
+    inline BrickType getBrickType() const { return m_brickType; }
+    inline std::vector<Bonus> const &getBonuses() const { return m_bonuses; }
 
 private:
     std::vector<Brick> m_bricks;
@@ -40,4 +43,5 @@ private:
     int m_score;
     mutable GameState m_state;
     BrickType m_brickType;
+    std::vector<Bonus> m_bonuses;
 };
