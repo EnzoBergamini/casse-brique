@@ -2,7 +2,7 @@
 #include <random>
 
 
-Bonus::Bonus(Coordinate coordinates, int radius) : Ball(coordinates, radius, 5, 75), m_type(BonusType::NONE) {
+Bonus::Bonus(Coordinate coordinates, int radius) : Ball(coordinates, radius, 5, 90), m_type(BonusType::NONE) {
 
     //Choose a random bonus type
     std::random_device rd; 

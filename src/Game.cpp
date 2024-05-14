@@ -9,7 +9,8 @@ Game::Game(BrickType brickType)
     m_lives(3) 
 
 {
-    m_balls.push_back(Ball(Coordinate(200, 300), 20, 5, 70));
+    m_balls.push_back(Ball(Coordinate(200, 300), 20, 5, 90));
+    m_balls.push_back(Ball(Coordinate(400, 300), 20, 10, 230));
 }
 
 
@@ -238,8 +239,8 @@ GameState Game::applyBonus(Bonus const &bonus) {
         break;
 
     case BonusType::BULLET:
-        m_bullets.push_back(Ball(Coordinate(m_slider.getCoordinates().getX(), m_slider.getCoordinates().getY()), 20, 5, 300));
-        m_bullets.push_back(Ball(Coordinate(m_slider.getCoordinates().getX() + m_slider.getWidth(), m_slider.getCoordinates().getY()), 20, 10, 152));
+        m_bullets.push_back(Ball(Coordinate(m_slider.getCoordinates().getX(), m_slider.getCoordinates().getY()), 20, 15, 270));
+        m_bullets.push_back(Ball(Coordinate(m_slider.getCoordinates().getX() + m_slider.getWidth(), m_slider.getCoordinates().getY()), 20, 15, 270));
 
         break;
     
