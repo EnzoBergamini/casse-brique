@@ -1,22 +1,30 @@
 #pragma once
 
 #include "Object.hpp"
+#include "Slider.hpp"
 
 #include <SDL.h>
 #include <utility>
 
+class Slider;
+
 class Ball : public Object {
 public:
-    Ball(Coordinate coordinates, int radius, Coordinate velocity);
+    Ball(Coordinate coordinates, int radius, float speed, float angle);
 
     void move();
-    void setVelocity(Coordinate velocity);
 
-    inline Coordinate getVelocity() const { return m_velocity; }
     inline int getRadius() const { return m_radius; }
+    inline float getSpeed() const { return m_speed; }
+    inline float getAngle() const { return m_angle; }
     bool ballCollide(Ball const& ball) const;
+
+    void bounceOnSlider(Slider const& slider);
+
+    void bounce(bool horizontal);
 
 private:
     int m_radius;
-    Coordinate m_velocity;
+    float m_speed;
+    float m_angle;
 };
