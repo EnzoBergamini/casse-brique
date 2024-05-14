@@ -8,8 +8,8 @@
 #include <iostream>
 #include <memory>
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 1200
+#define SCREEN_HEIGHT 800
 
 enum class WindowState {
     GAME,

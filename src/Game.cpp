@@ -4,7 +4,7 @@
 #include <cmath>
 
 Game::Game(BrickType brickType) 
-: m_brickType(brickType), m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_state(GameState::RUNNING),
+: m_brickType(brickType), m_score(0), m_slider(Coordinate(300, SCREEN_HEIGHT -100 ), 70, 15), m_state(GameState::RUNNING),
     m_balls(std::vector<Ball>()), m_bonuses(std::vector<Bonus>()), m_bullets(std::vector<Ball>()),
     m_lives(10) 
 
@@ -15,7 +15,7 @@ Game::Game(BrickType brickType)
 
 
 void Game::loadBricks(char const *filename){
-    Loader::load(filename, m_bricks);
+    Loader::load(filename, m_bricks, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 GameState Game::update(SDL_Event &e) {  

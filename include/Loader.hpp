@@ -7,5 +7,5 @@
 
 class Loader {
 public:
-    static void load(char const *filename, std::vector<Brick> &bricks);
+    static void load(char const *filename, std::vector<Brick> &bricks, int width, int height);
 };
