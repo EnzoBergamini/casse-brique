@@ -205,8 +205,27 @@ void RenderHandler::renderBrick(Brick const &brick)
         brick.getWidth(), 
         brick.getHeight()   
     };
-    SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 255, 255);
+    switch (brick.getHealth())
+    {
+    case 3:
+        SDL_SetRenderDrawColor(m_renderer.get(), 255, 0, 0, 255);
+        break;
+
+    case 2:
+        SDL_SetRenderDrawColor(m_renderer.get(), 0, 255, 0, 255);
+        break;
+    
+    case 1:
+        SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 255, 255);
+        break;
+    
+    default:
+        break;
+    }
     SDL_RenderFillRect(m_renderer.get(), &rect);
+    SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 255, 0);
+    SDL_RenderDrawRect(m_renderer.get(), &rect);
+
 }
 
 void RenderHandler::renderSlider(Slider const &slider)

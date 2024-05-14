@@ -4,7 +4,7 @@
 #include <cmath>
 
 Game::Game(BrickType brickType) 
-: m_brickType(brickType), m_score(0), m_slider(Coordinate(300, SCREEN_HEIGHT -100 ), 70, 15), m_state(GameState::RUNNING),
+: m_brickType(brickType), m_score(0), m_slider(Coordinate(300, SCREEN_HEIGHT -100 ),SCREEN_WIDTH /10, 15), m_state(GameState::RUNNING),
     m_balls(std::vector<Ball>()), m_bonuses(std::vector<Bonus>()), m_bullets(std::vector<Ball>()),
     m_lives(10) 
 
@@ -156,7 +156,7 @@ GameState Game::checkBallsCollision() {
                     // Add bonus
                     if (true)
                     {
-                        m_bonuses.push_back(Bonus(Coordinate(brick.getCoordinates().getX(), brick.getCoordinates().getY()), 20));
+                        m_bonuses.push_back(Bonus(Coordinate(brick.getCoordinates().getX() - (brick.getWidth() /2), brick.getCoordinates().getY()), 20));
                     }
                 }
             }
@@ -196,8 +196,15 @@ GameState Game::checkBonusesCollision() {
 }
 
 GameState Game::checkBulletCollision() {
-    for (auto &bullet : m_bullets)
-    {
+
+    // Remove bullets that are out of the screen (dirty code) or colliding with bricks alive that will be still alive
+    m_bullets.erase(std::remove_if(m_bullets.begin(), m_bullets.end(), [&](Ball &bullet){
+        if (bullet.getCoordinates().getY() < 0)
+        {   
+            std::cout << "bullet out of screen" << std::endl;
+            return true;
+        }
+
         for (auto &brick : m_bricks)
         {
             if (brick.ballCollide(bullet))
@@ -206,25 +213,20 @@ GameState Game::checkBulletCollision() {
                 m_score++;
                 if (brick.hit()){
                     m_bricks.erase(std::remove(m_bricks.begin(), m_bricks.end(), brick), m_bricks.end());
-                    if (m_bricks.empty())
-                    {
-                        return GameState::WIN;
-                    }
-                    // No bonus for bullet
+
+                }
+                else {
+                    return true;
                 }
             }
         }
-    }
-
-    // Remove bullets that are out of the screen
-    m_bullets.erase(std::remove_if(m_bullets.begin(), m_bullets.end(), [&](Ball &bullet){
-        if (bullet.getCoordinates().getY() < 0)
-        {   
-            std::cout << "bullet out of screen" << std::endl;
-            return true;
-        }
         return false;
     }), m_bullets.end());
+
+    if (m_bricks.empty())
+        {
+            return GameState::WIN;
+        }
     return GameState::RUNNING;
 }
 
