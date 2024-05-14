@@ -11,7 +11,7 @@ public:
     ~RenderHandler();
 
     inline std::pair<int, int> getSize() const { return m_size; }
-    SDL_Texture* loadTexture(char const *path);
+    SDL_Texture* loadTexture(char const *path, bool const transparancy = false);
 
     void renderGame(Game const &game);
     void renderMainTitle();
@@ -25,6 +25,7 @@ public:
     void renderSlider(Slider const &slider);
     void renderBall(Ball const &ball);
     void renderBonus(Bonus const &bonus);
+    void renderBullet(Ball const &bullet);
 
 private:
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;
@@ -34,5 +35,15 @@ private:
     SDL_Texture* m_brickTexture;
     SDL_Texture* m_sliderTexture;
     SDL_Texture* m_ballTexture;
+    SDL_Texture* m_bulletTexture;
+
+    SDL_Texture* m_bonus_add_ballTexture;
+    SDL_Texture* m_bonus_bulletTexture;
+    SDL_Texture* m_bonus_increase_sliderTexture;
+    SDL_Texture* m_bonus_increase_ballsTexture;
+    SDL_Texture* m_bonus_lifeTexture;
+    SDL_Texture* m_bonus_little_ballsTexture;
+    
+
 
 };

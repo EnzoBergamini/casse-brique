@@ -31,9 +31,21 @@ RenderHandler::RenderHandler(char const *title, int const width, int const heigh
 
     std::cout << "SDL_CreateRenderer Success" << std::endl;
 
-    m_ballTexture = loadTexture("assets/ball_16x16.bmp");
-    m_brickTexture = loadTexture("assets/brick_256x256.bmp");
-    m_sliderTexture = loadTexture("assets/slider_256x256.bmp");
+    // Chargement des textures
+    m_ballTexture = loadTexture("assets/ball_16x16.bmp", true);
+    m_brickTexture = loadTexture("assets/brick_256x256.bmp", true);
+    m_sliderTexture = loadTexture("assets/slider_256x256.bmp", true);
+    m_bulletTexture = loadTexture("assets/bullet_16x16.bmp", true);
+
+    m_bonus_add_ballTexture = loadTexture("assets/bonus_add_ball16x16.bmp", true);
+    m_bonus_bulletTexture = loadTexture("assets/bonus_bullet16x16.bmp", true);
+    m_bonus_increase_sliderTexture = loadTexture("assets/bonus_increase_slider16x16.bmp", true);
+    m_bonus_increase_ballsTexture = loadTexture("assets/bonus_increase_balls16x16.bmp", true);
+    m_bonus_lifeTexture = loadTexture("assets/bonus_life16x16.bmp", true);
+    m_bonus_little_ballsTexture = loadTexture("assets/bonus_little_balls16x16.bmp", true);
+
+    std::cout << "Textures loaded" << std::endl;
+
 
 }
 
@@ -44,7 +56,7 @@ RenderHandler::~RenderHandler()
     SDL_Quit();
 }
 
-SDL_Texture* RenderHandler::loadTexture(char const *path)
+SDL_Texture* RenderHandler::loadTexture(char const *path, bool const transparancy)
 {
     SDL_Texture* texture = nullptr;
     SDL_Surface* surface = nullptr;
@@ -53,6 +65,7 @@ SDL_Texture* RenderHandler::loadTexture(char const *path)
         printf("Erreur lors du chargement de l'image : %s\n", SDL_GetError());
         return nullptr;
     }
+    if(transparancy) {SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 0, 0, 0));};
 
     texture = SDL_CreateTextureFromSurface(m_renderer.get(), surface);
     SDL_FreeSurface(surface);
@@ -84,6 +97,11 @@ void RenderHandler::renderGame(Game const &g)
     for( auto const &bonus : g.getBonuses() )
     {
         renderBonus(bonus);
+    }
+
+    for( auto const &bullet : g.getBullets() )
+    {
+        renderBullet(bullet);
     }
 
     SDL_RenderPresent(m_renderer.get());
@@ -204,17 +222,44 @@ void RenderHandler::renderBall(Ball const &ball)
 
 }
 
+void RenderHandler::renderBullet(Ball const &bullet)
+{
+    SDL_Rect rectDest = {bullet.getCoordinates().getX(), bullet.getCoordinates().getY(), bullet.getRadius(), bullet.getRadius()};
+    SDL_RenderCopy(m_renderer.get(), m_bulletTexture, NULL, &rectDest);
+}
+
 void RenderHandler::renderBonus(Bonus const &bonus)
 {
-    SDL_SetRenderDrawColor(m_renderer.get(), 0, 85, 0, 255);
-    for (int i = 0; i < bonus.getRadius(); i++) {
-        for (int j = 0; j < bonus.getRadius(); j++) {
-            if (i * i + j * j <= bonus.getRadius() * bonus.getRadius()) {
-                SDL_RenderDrawPoint(m_renderer.get(), bonus.getCoordinates().getX() + i, bonus.getCoordinates().getY() + j);
-                SDL_RenderDrawPoint(m_renderer.get(), bonus.getCoordinates().getX() - i, bonus.getCoordinates().getY() + j);
-                SDL_RenderDrawPoint(m_renderer.get(), bonus.getCoordinates().getX() + i, bonus.getCoordinates().getY() - j);
-                SDL_RenderDrawPoint(m_renderer.get(), bonus.getCoordinates().getX() - i, bonus.getCoordinates().getY() - j);
-            }
-        }
+    SDL_Rect rectDest = {bonus.getCoordinates().getX(), bonus.getCoordinates().getY(), bonus.getRadius(), bonus.getRadius()};
+    switch (bonus.getType())
+    {
+    case BonusType::NONE:
+        break;
+    
+    case BonusType::ADD_BALL:
+        SDL_RenderCopy(m_renderer.get(), m_bonus_add_ballTexture, NULL, &rectDest);
+        break;
+    
+    case BonusType::BULLET:
+        SDL_RenderCopy(m_renderer.get(), m_bonus_bulletTexture, NULL, &rectDest);
+        break;
+
+    case BonusType::INCREASE_SLIDER:
+        SDL_RenderCopy(m_renderer.get(), m_bonus_increase_sliderTexture, NULL, &rectDest);
+        break;
+    
+    case BonusType::INCREASE_BALLS:
+        SDL_RenderCopy(m_renderer.get(), m_bonus_increase_ballsTexture, NULL, &rectDest);
+        break;
+    
+    case BonusType::LIFE:
+        SDL_RenderCopy(m_renderer.get(), m_bonus_lifeTexture, NULL, &rectDest);
+        break;
+
+    case BonusType::LITTLE_BALLS:
+        SDL_RenderCopy(m_renderer.get(), m_bonus_little_ballsTexture, NULL, &rectDest);
+        break;
+    default:
+        break;
     }
 }
