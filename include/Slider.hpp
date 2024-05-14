@@ -14,15 +14,14 @@ public:
     void move(Direction dir = Direction::MOUSE, int velocity = 1);
 
     void handleEvent(SDL_Event const &e);
-    
 
+    inline void incrementWidth(int increment) { m_width += increment;} 
     inline int getWidth() const { return m_width; }
     inline int getHeight() const { return m_height; }
 
 
+
     bool ballCollide(Ball const& ball) const;
-
-
 
 private:
     int m_width;

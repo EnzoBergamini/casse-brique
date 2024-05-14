@@ -5,11 +5,16 @@
 #include <SDL.h>
 #include <utility>
 
+// Bonus are special balls that can be collected by the player
+// They can have different effects, GOOD or BAD
 enum class BonusType {
+    NONE,
     BULLET,
-    MULTI,
+    ADD_BALL,
     INCREASE_SLIDER,
-    NONE
+    DEATH,
+    LIFE,
+    LITTLE_BALLS
 };
 
 class Bonus : public Ball {

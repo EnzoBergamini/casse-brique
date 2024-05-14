@@ -27,6 +27,9 @@ public:
     GameState update(SDL_Event &e);
     GameState handleEvent(SDL_Event &e);
     GameState checkCollision();
+    GameState checkBallsCollision();
+    GameState checkBonusesCollision();
+    GameState applyBonus(Bonus const &bonus);
 
     inline std::vector<Brick> const &getBricks() const { return m_bricks; }
     inline Slider const &getSlider() const { return m_slider; }
@@ -41,7 +44,9 @@ private:
     Slider m_slider;
     std::vector<Ball> m_balls;
     int m_score;
+    int m_lives;
     mutable GameState m_state;
     BrickType m_brickType;
     std::vector<Bonus> m_bonuses;
+
 };

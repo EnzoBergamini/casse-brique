@@ -4,9 +4,11 @@
 #include <cmath>
 
 Game::Game(BrickType brickType) 
-: m_brickType(brickType), m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_balls(std::vector<Ball>()), m_state(GameState::RUNNING), m_bonuses(std::vector<Bonus>()) {
-    m_balls.push_back(Ball(Coordinate(400, 300), 10, Coordinate(1, 2)));
-    m_balls.push_back(Ball(Coordinate(400, 300), 10, Coordinate(-1, -2)));
+: m_brickType(brickType), m_score(0), m_slider(Coordinate(300, 500), 70, 15), 
+    m_balls(std::vector<Ball>()), m_state(GameState::RUNNING), m_bonuses(std::vector<Bonus>()),
+    m_lives(3) {
+    m_balls.push_back(Ball(Coordinate(400, 300), 20, Coordinate(1, -2)));
+    m_balls.push_back(Ball(Coordinate(400, 300), 20, Coordinate(-3, -2)));
 }
 
 void Game::loadBricks(char const *filename){
@@ -74,12 +76,25 @@ GameState Game::handleEvent(SDL_Event &e) {
 
 GameState Game::checkCollision() {
 
+    if ((m_state = checkBallsCollision()) != GameState::RUNNING)
+    {
+        return m_state;
+    }
+
+    if ((m_state = checkBonusesCollision()) != GameState::RUNNING)
+    {
+        return m_state;
+    }
+
+    return GameState::RUNNING;
+}
+
+GameState Game::checkBallsCollision() {
     for (auto &ball : m_balls)
     {
 
         int ballx = ball.getCoordinates().getX();
         int bally = ball.getCoordinates().getY();
-        int ballr = ball.getRadius();
 
         if (ballx < 0 || ballx > 800)
         {
@@ -98,7 +113,12 @@ GameState Game::checkCollision() {
         }
         if (bally > 600)
         {
-            return GameState::GAME_OVER;
+            m_lives--;
+
+            if (m_lives == 0)
+            {
+                return GameState::GAME_OVER;
+            }
         }
         
         // Check collision with bricks
@@ -133,9 +153,51 @@ GameState Game::checkCollision() {
                 ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
             }
         }
-
-
     }
+    return GameState::RUNNING;
+}
 
+GameState Game::checkBonusesCollision() {
+    for (auto &bonus : m_bonuses)
+    {
+        if (m_slider.ballCollide(bonus))
+        {
+            applyBonus(bonus);
+            //m_bonuses.erase(std::remove(m_bonuses.begin(), m_bonuses.end(), bonus), m_bonuses.end());
+        }
+    }
+    return GameState::RUNNING;
+}
+
+GameState Game::applyBonus(Bonus const &bonus) {
+    switch (bonus.getType())
+    {
+    case BonusType::NONE:
+        break;
+
+    case BonusType::ADD_BALL:
+        m_balls.push_back(Ball(Coordinate(400, 300), 10, Coordinate(1, 2)));
+        break;
+
+    case BonusType::BULLET:
+        break;
+    
+    case BonusType::DEATH:
+        return GameState::GAME_OVER;
+        break;
+
+    case BonusType::INCREASE_SLIDER:
+        m_slider.incrementWidth(5);
+        break;
+    
+    case BonusType::LIFE:
+        m_lives++;
+        break;
+    
+    case BonusType::LITTLE_BALLS:
+        for(auto &ball : m_balls){
+            ball.setRadius(5);
+        }
+    }
     return GameState::RUNNING;
 }
