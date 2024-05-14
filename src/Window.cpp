@@ -1,7 +1,7 @@
 #include "../include/Window.hpp"
 
 Window::Window()
-    : m_renderHandler("breakout",800, 600 ), m_WindowState(WindowState::MAIN_TITLE)
+    : m_renderHandler("breakout",SCREEN_WIDTH, SCREEN_HEIGHT ), m_WindowState(WindowState::MAIN_TITLE)
 {
 }
 

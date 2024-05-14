@@ -9,8 +9,8 @@ Game::Game(BrickType brickType)
     m_lives(3) 
 
 {
-    m_balls.push_back(Ball(Coordinate(200, 300), 20, Coordinate(1, -2)));
-    m_balls.push_back(Ball(Coordinate(300, 300), 20, Coordinate(-1, -2)));
+    m_balls.push_back(Ball(Coordinate(200, 300), 20, Coordinate(1, -10)));
+    m_balls.push_back(Ball(Coordinate(300, 300), 20, Coordinate(-1, -5)));
     m_balls.push_back(Ball(Coordinate(400, 350), 20, Coordinate(1, -2)));
 }
 
@@ -109,12 +109,12 @@ GameState Game::checkBallsCollision() {
         int ballx = ball.getCoordinates().getX();
         int bally = ball.getCoordinates().getY();
 
-        if (ballx < 0 || ballx > 800)
+        if (ballx < 0 || ballx > SCREEN_WIDTH)
         {
             std::cout << "wall collision" << std::endl;
             ball.setVelocity(Coordinate(-ball.getVelocity().getX(), ball.getVelocity().getY()));
         }
-        if (bally < 0 || bally > 600)
+        if (bally < 0 || bally > SCREEN_HEIGHT)
         {
             std::cout << "wall collision" << std::endl;
             ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
@@ -124,7 +124,7 @@ GameState Game::checkBallsCollision() {
             std::cout << "slider collision" << std::endl;
             ball.setVelocity(Coordinate(ball.getVelocity().getX(), -ball.getVelocity().getY()));
         }
-        if (bally > 600)
+        if (bally > SCREEN_HEIGHT)
         {
             m_lives--;
             std::cout << "lives : " << m_lives << std::endl;
@@ -152,7 +152,7 @@ GameState Game::checkBallsCollision() {
                     // Add bonus
                     if (true)
                     {
-                        m_bonuses.push_back(Bonus(Coordinate(brick.getCoordinates().getX(), brick.getCoordinates().getY()), 16));
+                        m_bonuses.push_back(Bonus(Coordinate(brick.getCoordinates().getX(), brick.getCoordinates().getY()), 20));
                     }
                 }
             }
@@ -179,8 +179,15 @@ GameState Game::checkBonusesCollision() {
             applyBonus(bonus);
             return true;
         }
+
+        if (bonus.getCoordinates().getY() > SCREEN_HEIGHT)
+        {
+            return true;
+        }
+
         return false;
     }), m_bonuses.end());
+
     return GameState::RUNNING;
 }
 
@@ -204,6 +211,16 @@ GameState Game::checkBulletCollision() {
             }
         }
     }
+
+    // Remove bullets that are out of the screen
+    m_bullets.erase(std::remove_if(m_bullets.begin(), m_bullets.end(), [&](Ball &bullet){
+        if (bullet.getCoordinates().getY() < 0)
+        {   
+            std::cout << "bullet out of screen" << std::endl;
+            return true;
+        }
+        return false;
+    }), m_bullets.end());
     return GameState::RUNNING;
 }
 
@@ -218,8 +235,8 @@ GameState Game::applyBonus(Bonus const &bonus) {
         break;
 
     case BonusType::BULLET:
-        m_bullets.push_back(Ball(Coordinate(m_slider.getCoordinates().getX(), m_slider.getCoordinates().getY()), 5, Coordinate(0, -5)));
-        m_bullets.push_back(Ball(Coordinate(m_slider.getCoordinates().getX() + m_slider.getWidth(), m_slider.getCoordinates().getY()), 5, Coordinate(0, -5)));
+        m_bullets.push_back(Ball(Coordinate(m_slider.getCoordinates().getX(), m_slider.getCoordinates().getY()), 20, Coordinate(0, -5)));
+        m_bullets.push_back(Ball(Coordinate(m_slider.getCoordinates().getX() + m_slider.getWidth(), m_slider.getCoordinates().getY()), 20, Coordinate(0, -5)));
 
         break;
     
