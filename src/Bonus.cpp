@@ -24,8 +24,8 @@ Bonus::Bonus(Coordinate coordinates, int radius) : Ball(coordinates, radius, Coo
             std::cout << "Bonus TYPE INCREASE_SLIDER" << std::endl;
             break;
         case 3:
-            m_type = BonusType::DEATH;
-            std::cout << "Bonus TYPE DEATH" << std::endl;
+            m_type = BonusType::INCREASE_BALLS;
+            std::cout << "Bonus TYPE INCREASE_BALL" << std::endl;
             break;
         case 4:
             m_type = BonusType::LIFE;

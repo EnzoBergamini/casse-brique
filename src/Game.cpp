@@ -4,11 +4,14 @@
 #include <cmath>
 
 Game::Game(BrickType brickType) 
-: m_brickType(brickType), m_score(0), m_slider(Coordinate(300, 500), 70, 15), 
-    m_balls(std::vector<Ball>()), m_state(GameState::RUNNING), m_bonuses(std::vector<Bonus>()),
-    m_lives(3) {
-    m_balls.push_back(Ball(Coordinate(400, 300), 20, Coordinate(1, -2)));
-    m_balls.push_back(Ball(Coordinate(400, 300), 20, Coordinate(-3, -2)));
+: m_brickType(brickType), m_score(0), m_slider(Coordinate(300, 500), 70, 15), m_state(GameState::RUNNING),
+    m_balls(std::vector<Ball>()), m_bonuses(std::vector<Bonus>()), m_bullets(std::vector<Ball>()),
+    m_lives(3) 
+
+{
+    m_balls.push_back(Ball(Coordinate(200, 300), 20, Coordinate(1, -2)));
+    m_balls.push_back(Ball(Coordinate(300, 300), 20, Coordinate(-1, -2)));
+    m_balls.push_back(Ball(Coordinate(400, 350), 20, Coordinate(1, -2)));
 }
 
 void Game::loadBricks(char const *filename){
@@ -33,6 +36,11 @@ GameState Game::update(SDL_Event &e) {
         bonus.move();
     }
     
+    for (auto &bullet : m_bullets)
+    {
+        bullet.move();
+    }
+
     if ((m_state = checkCollision()) != GameState::RUNNING)
     {
         return m_state;
@@ -86,6 +94,11 @@ GameState Game::checkCollision() {
         return m_state;
     }
 
+    if ((m_state = checkBulletCollision()) != GameState::RUNNING)
+    {
+        return m_state;
+    }
+
     return GameState::RUNNING;
 }
 
@@ -114,6 +127,7 @@ GameState Game::checkBallsCollision() {
         if (bally > 600)
         {
             m_lives--;
+            std::cout << "lives : " << m_lives << std::endl;
 
             if (m_lives == 0)
             {
@@ -138,7 +152,7 @@ GameState Game::checkBallsCollision() {
                     // Add bonus
                     if (true)
                     {
-                        m_bonuses.push_back(Bonus(Coordinate(brick.getCoordinates().getX(), brick.getCoordinates().getY()), 10));
+                        m_bonuses.push_back(Bonus(Coordinate(brick.getCoordinates().getX(), brick.getCoordinates().getY()), 16));
                     }
                 }
             }
@@ -158,12 +172,36 @@ GameState Game::checkBallsCollision() {
 }
 
 GameState Game::checkBonusesCollision() {
-    for (auto &bonus : m_bonuses)
-    {
+    
+    m_bonuses.erase(std::remove_if(m_bonuses.begin(), m_bonuses.end(), [&](Bonus &bonus){
         if (m_slider.ballCollide(bonus))
         {
             applyBonus(bonus);
-            //m_bonuses.erase(std::remove(m_bonuses.begin(), m_bonuses.end(), bonus), m_bonuses.end());
+            return true;
+        }
+        return false;
+    }), m_bonuses.end());
+    return GameState::RUNNING;
+}
+
+GameState Game::checkBulletCollision() {
+    for (auto &bullet : m_bullets)
+    {
+        for (auto &brick : m_bricks)
+        {
+            if (brick.ballCollide(bullet))
+            {
+                std::cout << "brick collision coord : " << brick.getCoordinates().getX() << " " << brick.getCoordinates().getY() << std::endl;
+                m_score++;
+                if (brick.hit()){
+                    m_bricks.erase(std::remove(m_bricks.begin(), m_bricks.end(), brick), m_bricks.end());
+                    if (m_bricks.empty())
+                    {
+                        return GameState::WIN;
+                    }
+                    // No bonus for bullet
+                }
+            }
         }
     }
     return GameState::RUNNING;
@@ -180,10 +218,15 @@ GameState Game::applyBonus(Bonus const &bonus) {
         break;
 
     case BonusType::BULLET:
+        m_bullets.push_back(Ball(Coordinate(m_slider.getCoordinates().getX(), m_slider.getCoordinates().getY()), 5, Coordinate(0, -5)));
+        m_bullets.push_back(Ball(Coordinate(m_slider.getCoordinates().getX() + m_slider.getWidth(), m_slider.getCoordinates().getY()), 5, Coordinate(0, -5)));
+
         break;
     
-    case BonusType::DEATH:
-        return GameState::GAME_OVER;
+    case BonusType::INCREASE_BALLS:
+        for(auto &ball : m_balls){
+            ball.setRadius(ball.getRadius() + 5);
+        }
         break;
 
     case BonusType::INCREASE_SLIDER:
@@ -192,6 +235,7 @@ GameState Game::applyBonus(Bonus const &bonus) {
     
     case BonusType::LIFE:
         m_lives++;
+        std::cout << "lives : " << m_lives << std::endl;
         break;
     
     case BonusType::LITTLE_BALLS:

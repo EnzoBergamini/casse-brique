@@ -12,7 +12,7 @@ enum class BonusType {
     BULLET,
     ADD_BALL,
     INCREASE_SLIDER,
-    DEATH,
+    INCREASE_BALLS,
     LIFE,
     LITTLE_BALLS
 };

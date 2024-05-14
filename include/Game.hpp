@@ -29,6 +29,7 @@ public:
     GameState checkCollision();
     GameState checkBallsCollision();
     GameState checkBonusesCollision();
+    GameState checkBulletCollision();
     GameState applyBonus(Bonus const &bonus);
 
     inline std::vector<Brick> const &getBricks() const { return m_bricks; }
@@ -38,15 +39,20 @@ public:
     inline GameState getState() const { return m_state; }
     inline BrickType getBrickType() const { return m_brickType; }
     inline std::vector<Bonus> const &getBonuses() const { return m_bonuses; }
+    inline std::vector<Ball> const &getBullets() const { return m_bullets; }
 
 private:
+    BrickType m_brickType;
     std::vector<Brick> m_bricks;
     Slider m_slider;
+    
     std::vector<Ball> m_balls;
+    std::vector<Bonus> m_bonuses;
+    std::vector<Ball> m_bullets;
+    
     int m_score;
     int m_lives;
     mutable GameState m_state;
-    BrickType m_brickType;
-    std::vector<Bonus> m_bonuses;
+    
 
 };
