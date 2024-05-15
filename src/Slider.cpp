@@ -21,5 +21,6 @@ bool Slider::ballCollide(Ball const& ball) const {
     return   m_coordinates.getX() < ball.getCoordinates().getX() + ball.getRadius() &&
              m_coordinates.getX() + m_width > ball.getCoordinates().getX() &&
              m_coordinates.getY() < ball.getCoordinates().getY() + ball.getRadius() &&
-             m_coordinates.getY() + m_height > ball.getCoordinates().getY();
+             m_coordinates.getY() + m_height > ball.getCoordinates().getY() &&
+             ball.getAngle() < 180;
 }

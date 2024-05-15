@@ -258,7 +258,7 @@ GameState Game::applyBonus(Bonus const &bonus) {
         break;
 
     case BonusType::INCREASE_SLIDER:
-        m_slider.incrementWidth(5);
+        m_slider.incrementWidth(SCREEN_WIDTH /15);
         break;
     
     case BonusType::LIFE:
