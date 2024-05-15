@@ -147,16 +147,19 @@ GameState Game::checkBallsCollision() {
                 std::cout << "angle after : " << ball.getAngle() << std::endl;
                 m_score++;
                 if (brick.hit()){
+                    // Add bonus
+                    if (true)
+                    {
+                        m_bonuses.push_back(Bonus(Coordinate(brick.getCoordinates().getX() + (brick.getWidth() /2), brick.getCoordinates().getY()), 20));
+                    }
+                    //Remove brick
+
                     m_bricks.erase(std::remove(m_bricks.begin(), m_bricks.end(), brick), m_bricks.end());
                     if (m_bricks.empty())
                     {
                         return GameState::WIN;
                     }
-                    // Add bonus
-                    if (true)
-                    {
-                        m_bonuses.push_back(Bonus(Coordinate(brick.getCoordinates().getX() - (brick.getWidth() /2), brick.getCoordinates().getY()), 20));
-                    }
+                    
                 }
             }
         }
@@ -236,7 +239,10 @@ GameState Game::applyBonus(Bonus const &bonus) {
         break;
 
     case BonusType::ADD_BALL:
-        m_balls.push_back(Ball(Coordinate(400, 300), 10, 5, 80));
+        // Set a random angle (between 0 and 360) and velocity (0 and 15)
+        m_balls.push_back(Ball(Coordinate(SCREEN_WIDTH /2, SCREEN_HEIGHT /3 *2), 20, rand() % 10, rand() % 360));
+        
+
         break;
 
     case BonusType::BULLET:

@@ -5,6 +5,8 @@
 #include "Ball.hpp"
 #include "Bonus.hpp"
 
+#include "random"
+
 #include <vector>
 #include <algorithm>
 

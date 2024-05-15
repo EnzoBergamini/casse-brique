@@ -9,7 +9,8 @@
 #include <memory>
 
 #define SCREEN_WIDTH 1200
-#define SCREEN_HEIGHT 800
+#define SCREEN_HEIGHT 900
+#define FPS 60
 
 enum class WindowState {
     GAME,

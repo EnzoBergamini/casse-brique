@@ -56,10 +56,13 @@ void Window::gameLoop()
         
         game_loop_running :
         SDL_Event e;    
+        int i = 0;
         while (game.update(e) == GameState::RUNNING)
         {
             m_renderHandler.renderGame(game);
-            SDL_Delay(50);
+            //Wait for max fps
+            SDL_Delay(1000/FPS);
+            i++;
         }
         
     std::cout << "Game ended" << std::endl;

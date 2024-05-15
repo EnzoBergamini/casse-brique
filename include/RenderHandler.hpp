@@ -48,7 +48,13 @@ private:
     SDL_Texture* m_bonus_increase_ballsTexture;
     SDL_Texture* m_bonus_lifeTexture;
     SDL_Texture* m_bonus_little_ballsTexture;
-    
+
+    SDL_Texture* m_dirtTexture;
+    SDL_Texture* m_cobbleTexture;
+    SDL_Texture* m_ironTexture;
+
+    SDL_Texture* m_fond_ecranTexture;
+
 
 
 };

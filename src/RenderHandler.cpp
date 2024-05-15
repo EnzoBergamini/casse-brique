@@ -44,6 +44,12 @@ RenderHandler::RenderHandler(char const *title, int const width, int const heigh
     m_bonus_lifeTexture = loadTexture("assets/bonus_life16x16.bmp", true);
     m_bonus_little_ballsTexture = loadTexture("assets/bonus_little_balls16x16.bmp", true);
 
+    m_dirtTexture = loadTexture("assets/texture_dirt16x16.bmp");
+    m_cobbleTexture = loadTexture("assets/texture_cobble16x16.bmp");
+    m_ironTexture = loadTexture("assets/texture_iron16x16.bmp");
+
+    m_fond_ecranTexture = loadTexture("assets/fond_ecran2.bmp");
+
     std::cout << "Textures loaded" << std::endl;
 
 
@@ -81,6 +87,7 @@ void RenderHandler::renderGame(Game const &g)
 {
     SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 0, 255);
     SDL_RenderClear(m_renderer.get());
+    //SDL_RenderCopy(m_renderer.get(), m_fond_ecranTexture, NULL, NULL);
 
     for( auto const &brick : g.getBricks() )
     {
@@ -199,7 +206,7 @@ void RenderHandler::renderLoaderScreen()
 
 void RenderHandler::renderBrick(Brick const &brick)
 {
-    SDL_Rect rect = {
+    SDL_Rect rectDest = {
         brick.getCoordinates().getX(),
         brick.getCoordinates().getY(),
         brick.getWidth(), 
@@ -208,23 +215,23 @@ void RenderHandler::renderBrick(Brick const &brick)
     switch (brick.getHealth())
     {
     case 3:
-        SDL_SetRenderDrawColor(m_renderer.get(), 255, 0, 0, 255);
+        SDL_RenderCopy(m_renderer.get(), m_ironTexture, NULL, &rectDest);    
         break;
 
     case 2:
-        SDL_SetRenderDrawColor(m_renderer.get(), 0, 255, 0, 255);
+        SDL_RenderCopy(m_renderer.get(), m_cobbleTexture, NULL, &rectDest);    
         break;
     
     case 1:
-        SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 255, 255);
+        SDL_RenderCopy(m_renderer.get(), m_dirtTexture, NULL, &rectDest);    
         break;
     
     default:
         break;
     }
-    SDL_RenderFillRect(m_renderer.get(), &rect);
+    //Contour
     SDL_SetRenderDrawColor(m_renderer.get(), 0, 0, 255, 0);
-    SDL_RenderDrawRect(m_renderer.get(), &rect);
+    SDL_RenderDrawRect(m_renderer.get(), &rectDest);
 
 }
 
