@@ -2,7 +2,6 @@
 
 #include "Object.hpp"
 #include "Slider.hpp"
-#include "Brick.hpp"
 
 #include <SDL.h>
 #include <utility>
@@ -23,7 +22,6 @@ public:
     bool ballCollide(Ball const& ball) const;
 
     void bounceOnSlider(Slider const& slider);
-    void bounceOnObject(Brick const& object);
 
     void bounce(Coordinate normal);
 

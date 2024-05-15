@@ -32,15 +32,9 @@ void Ball::bounceOnSlider(Slider const& slider) {
     }
 }
 
-void Ball::bounceOnObject(Brick const& object) {
-    Coordinate normal = object.getNormal(m_coordinates);
-    bounce(normal);
-}
-
 void Ball::bounce(Coordinate normal) {
     if (m_can_bounce){ // pour éviter les rebonds multiples sur un même objet
-        Coordinate ball_speed = Coordinate(m_speed * cos(m_angle*3.14159265/180), m_speed * sin(m_angle*3.14159265/180));
-        Coordinate new_speed = 2*normal - ball_speed;
-        m_angle = atan2(new_speed.getY(), new_speed.getX()) * 180/3.14159265;
+        Coordinate new_speed = Coordinate(m_speed * cos(m_angle*3.14159265/180), m_speed * sin(m_angle*3.14159265/180)) - normal * 2 * (Coordinate(m_speed * cos(m_angle*3.14159265/180), m_speed * sin(m_angle*3.14159265/180)).dot(normal));
+        m_angle = atan2(new_speed.getY(), new_speed.getX()) * 180 / 3.14159265;
     }
 }

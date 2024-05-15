@@ -156,7 +156,7 @@ GameState Game::checkBallsCollision() {
             if (brick.ballCollide(ball))
             {
                 std::cout << "brick collision coord : " << brick.getCoordinates().getX() << " " << brick.getCoordinates().getY() << std::endl;
-                ball.bounceOnObject(brick);
+                ball.bounce(brick.getNormal(ball.getCoordinates()));
                 m_score++;
                 if (brick.hit()){
                     m_bricks.erase(std::remove(m_bricks.begin(), m_bricks.end(), brick), m_bricks.end());
