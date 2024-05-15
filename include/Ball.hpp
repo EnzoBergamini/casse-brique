@@ -23,7 +23,7 @@ public:
 
     void bounceOnSlider(Slider const& slider);
 
-    void bounce(bool horizontal);
+    void bounce(Coordinate normal);
 
 protected:
     int m_radius;

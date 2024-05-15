@@ -23,3 +23,27 @@ void Coordinate::setY(int y) {
 bool Coordinate::operator==(Coordinate const &other) const {
     return m_x == other.m_x && m_y == other.m_y;
 }
+
+Coordinate Coordinate::operator+(Coordinate const &other) const {
+    return Coordinate(m_x + other.m_x, m_y + other.m_y);
+}
+
+Coordinate Coordinate::operator-(Coordinate const &other) const {
+    return Coordinate(m_x - other.m_x, m_y - other.m_y);
+}
+
+Coordinate Coordinate::operator*(float scalar) const {
+    return Coordinate(m_x * scalar, m_y * scalar);
+}
+
+Coordinate Coordinate::operator*(int scalar) const {
+    return Coordinate(m_x * scalar, m_y * scalar);
+}
+
+Coordinate operator*(int scalar, Coordinate const &coord) {
+    return Coordinate(coord.getX() * scalar, coord.getY() * scalar);
+}
+
+float Coordinate::dot(Coordinate const &other) const {
+    return m_x * other.m_x + m_y * other.m_y;
+}

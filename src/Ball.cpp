@@ -32,19 +32,9 @@ void Ball::bounceOnSlider(Slider const& slider) {
     }
 }
 
-void Ball::bounce(bool horizontal) {
+void Ball::bounce(Coordinate normal) {
     if (m_can_bounce){ // pour éviter les rebonds multiples sur un même objet
-
-        if (horizontal) {
-            m_angle = 180 - m_angle;
-        } else {
-            m_angle = -m_angle;
-        }
-
-        if (m_angle < 0) {
-            m_angle += 360;
-        } else if (m_angle > 360) {
-            m_angle -= 360;
-        }
+        Coordinate new_speed = Coordinate(m_speed * cos(m_angle*3.14159265/180), m_speed * sin(m_angle*3.14159265/180)) - normal * 2 * (Coordinate(m_speed * cos(m_angle*3.14159265/180), m_speed * sin(m_angle*3.14159265/180)).dot(normal));
+        m_angle = atan2(new_speed.getY(), new_speed.getX()) * 180 / 3.14159265;
     }
 }
