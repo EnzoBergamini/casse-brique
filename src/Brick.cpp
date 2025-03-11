@@ -60,7 +60,9 @@ Coordinate Brick::closeBorderPoint(Coordinate const& point) const {
     float distanceRight = distance(point, closestPointRight);
 
     // Find the minimum distance and return the corresponding point
-    float minDistance = std::min({distanceTop, distanceBottom, distanceLeft, distanceRight});
+    float minDistance = std::min(distanceTop, distanceBottom);
+    minDistance = std::min(minDistance, distanceLeft);
+    minDistance = std::min(minDistance, distanceRight);
 
     if (minDistance == distanceTop) {
         std::cout << "le point le plus proche est : " << closestPointTop.getX() << " " << closestPointTop.getY() << std::endl;
